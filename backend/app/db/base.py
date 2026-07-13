@@ -20,3 +20,7 @@ class Base(DeclarativeBase):
         server_default=func.now(), 
         onupdate=func.now()
     )
+
+# Register models for Alembic autogenerate
+from app.models import User, Booking, Payment, AvailabilityPreference
+

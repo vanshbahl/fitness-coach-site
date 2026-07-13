@@ -16,7 +16,7 @@ Stores information about the coach/admin.
 - `created_at`, `updated_at` (Timestamps)
 
 ### 2. `trial_bookings` (The Assessment Model)
-Captures the complete onboarding wizard payload. This table is wide but flattened for the MVP to allow easy querying and dashboard display.
+Captures the core onboarding wizard payload. While initially planned as a single flattened table, it is normalized into 1-to-1 relationships for Payment and Availability to ensure a cleaner architecture.
 
 *Refer to [BOOKING_DOMAIN.md](BOOKING_DOMAIN.md) for the exact schema mapping of this table.*
 
