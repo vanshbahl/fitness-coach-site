@@ -35,12 +35,12 @@
 - [ ] Add Razorpay script to frontend checkout step
 - [ ] Create `POST /bookings/verify` endpoint
 - [ ] Build Step 11: Payment Modal Trigger
-- [ ] Build Step 12: Success Screen (Confetti animation, WhatsApp link)
+- [ ] Build Step 12: Success Screen (Confirmation of Calendar Invite & Email)
 
 ## Phase 5: Dashboard & Admin
 - [ ] Build Admin Login
-- [ ] Build detailed View Modal for Coach to read applicant's assessment
-- [ ] Build attendance and status toggle features
+- [ ] Build Dashboard to view Bookings, Status, and Assessment Data (No CRM logic)
+- [ ] Build minimal status toggle features
 
 ## Phase 6: Optimization
 - [ ] Ensure all tap targets are min 44x44px for thumb use

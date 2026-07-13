@@ -1,7 +1,7 @@
 # Frontend UX Design
 
 ## Core Conversion Principle
-Every screen is designed to answer: *"Does this increase the likelihood that the user completes the ₹49 booking?"*
+Every screen is designed to answer: *"Does this increase the likelihood that the user completes the ₹49 booking?"* The website's responsibility ends once the trial session has been successfully booked.
 The experience must feel like joining an exclusive coaching program, not filling out a form.
 
 ### 1. Landing Screen
@@ -11,7 +11,7 @@ The experience must feel like joining an exclusive coaching program, not filling
 - **Visual Hierarchy**: Headline > Primary CTA > Social Proof.
 - **Primary CTA**: "Start Your Journey (₹49)" (Sticky at the bottom on mobile).
 - **Expected Emotion**: Inspired, excited, trusting.
-- **Exit Conditions**: User clicks the primary CTA to enter the wizard.
+- **Exit Conditions**: User clicks the primary CTA to enter the wizard (No subscriptions, No portals).
 
 ### 2. Wizard Step 1: Personal Info
 - **Purpose**: Collect basic contact info smoothly.
@@ -56,13 +56,24 @@ The experience must feel like joining an exclusive coaching program, not filling
 - **Expected Emotion**: Ready, decisive.
 
 ### 8. Success Screen
-- **Purpose**: Confirm booking and route user to WhatsApp.
+- **Purpose**: Confirm booking and clarify that an email & calendar invite have been sent.
 - **User Goal**: Feel accomplished and know the next steps.
-- **Layout**: Full-screen celebration animation (confetti), clear confirmation text, large WhatsApp CTA.
-- **Primary CTA**: "Join WhatsApp Group/Chat"
+- **Layout**: Full-screen celebration animation, clear confirmation text with Google Meet details.
+- **Primary CTA**: "Return Home"
 - **Expected Emotion**: Euphoric, accomplished.
 
 ### 9. 404 & Empty States
 - **Purpose**: Gracefully handle missing data or pages.
 - **Layout**: Minimal centered text with a subtle branded illustration.
 - **Primary CTA**: "Return Home"
+
+## Official CTA Progression
+To eliminate cognitive load and prevent duplicate actions, the application follows a strict, single-path CTA progression. No stage reuses wording from another stage.
+
+1. **Landing / Navigation**: `Start Your Assessment` / `Start Assessment`
+2. **Inside Assessment**: `Next`
+3. **Assessment End**: `Review Your Answers`
+4. **Summary Screen**: `Continue to Payment`
+5. **Payment Complete**: `Choose Trial Time`
+6. **Slot Selection**: `Confirm Booking`
+7. **Success Screen**: `Return Home` (Booking Confirmed)

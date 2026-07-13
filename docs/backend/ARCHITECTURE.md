@@ -44,7 +44,7 @@ sequenceDiagram
     User->>Frontend: Navigates through 10-step wizard
     Frontend->>Frontend: Validates & saves progress in local state
     User->>Frontend: Reviews summary & proceeds to payment
-    Frontend->>FastAPI: POST /api/bookings/initiate (Sends full assessment payload)
+    Frontend->>FastAPI: POST /api/bookings/initiate (Payload + booking_source)
     FastAPI->>Razorpay: Create Order (₹49)
     Razorpay-->>FastAPI: Order ID
     FastAPI-->>Frontend: Return Order ID
@@ -52,10 +52,14 @@ sequenceDiagram
     User->>Razorpay: Completes Payment
     Razorpay-->>Frontend: Payment Success Token
     Frontend->>FastAPI: POST /api/bookings/verify
-    FastAPI->>Calendar: Create Calendar Event
+    FastAPI->>Calendar: Create Calendar Event & Meet Link
+    FastAPI->>Resend: Send Confirmation Emails (User & Coach)
     FastAPI-->>Frontend: Success Response
-    Frontend-->>User: Show Celebration & WhatsApp Join Link
+    Frontend-->>User: Show Celebration & Meet Link
 ```
+
+## Architectural Constraints
+Keep architecture intentionally lightweight. **Do not** introduce Redis, Celery, RabbitMQ, Kafka, WebSockets, Background workers, or Microservices. The project should remain simple until scale demands otherwise.
 
 ## Deployment Architecture
 - **Backend**: Deployed on **Railway**. Handles environment variables securely and scales easily.

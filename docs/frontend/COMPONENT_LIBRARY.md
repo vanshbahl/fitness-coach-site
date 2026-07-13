@@ -39,3 +39,49 @@ A reusable inventory of standard UI components for the Quick Strength Frontend.
   - Framer Motion staggered fade-up for high-impact typography.
   - Dark overlay gradients ensuring text legibility over photography.
   - High-hierarchy primary CTAs and social proof stats.
+
+### 8.1 Landing Page Hero Refinements (v2)
+- **Whitespace & Focus**: Reduced container `max-w` to `5xl` to force a tighter, more cinematic typography column on desktop.
+- **Cinematic Photography**: Significantly reduced gradient opacity (e.g. from `/80` to `/40`) allowing the raw image to dominate the background.
+- **Motion Polish**: Lowered the stagger delay to `0.1s` and tweaked the spring/easeOut curve `[0.16, 1, 0.3, 1]` for an invisible, high-end entry. Reduced y-travel to `15px`.
+- **CTA Hierarchy**: Shifted the primary CTA to "Start Your Assessment", backed by three elegant `bg-white/5` chips (11 Steps, ~90 Seconds, ₹49) replacing the harsh pricing focus.
+- **Conversion Journey**: Embedded the `Assessment -> Trial -> Training` mental model strictly using typography beneath the CTA to ground user expectations instantly.
+
+### 7.1 Floating Navigation Refinements (v2)
+- **Blur Density**: Increased to `backdrop-blur-2xl` and thinned the background opacity to `40%` for a highly premium, glassy aesthetic.
+- **Desktop Expandability**: Introduced minimal text links (`#philosophy`, `#results`, `#faq`) that only render on desktop.
+
+### 8.2 Final Hero Polish (v3)
+- **Text Readability**: Guaranteed high contrast by shifting paragraphs and secondary headlines from `text-zinc-400` to `text-zinc-200`.
+- **Cinematic Overlays**: Removed `from-background` (which caused a white fog in light mode) in favor of strictly `from-black` gradients. Layered a radial vignette (`bg-[radial-gradient(...)]`) to darken text areas while preserving center image clarity.
+- **Composition**: Enforced a `max-w-5xl` column layout and used `text-[11vw] sm:text-6xl` scaling to prevent accidental text wrapping across 375px–430px bounds.
+- **CTA**: Enhanced `Start Your Assessment` with active scaling (`active:scale-[0.98]`) and accessible focus rings.
+- **Metadata Chips**: Stripped background bubbles entirely. Switched to elegant text-based alignments with faded icons (`text-white/60`).
+- **Assessment Journey**: Added a glowing active state (`bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]`) to the "Assessment" step to communicate progress intent immediately.
+- **Accessibility**: Validated contrast ratios, added `aria-label` to the section, hidden decorative scroll indicators, and implemented `useReducedMotion` checks for Framer Motion.
+
+### 7.2 Final Navigation Polish (v3)
+- **Mobile Navigation**: Built a `lucide-react` Hamburger Menu wrapper that triggers an `AnimatePresence` full-screen sheet with staggered item drop-ins and strict `overflow-hidden` body locking.
+- **Desktop Navigation**: Thinned out the floating glass background from `bg-background/40` to a stark `bg-black/10` coupled with extreme blur (`backdrop-blur-2xl`), making it feel nearly invisible until scrolled. Hover states tightened to `text-white` snaps.
+
+### 8.3 Production Freeze (v1)
+- The Hero and Navigation components are officially marked as **Production Ready (v1)**.
+- **Desktop Nav Polish**: Solidified visual separation by setting the unscrolled state to `bg-black/20 backdrop-blur-md` and the scrolled state to `bg-black/60 backdrop-blur-xl`.
+- **Mobile Nav Contrast**: Replaced shadcn `variant="outline"` on mobile sheet buttons with raw HTML `<button>` elements to perfectly control dark-mode contrast overrides without generic variant interference, guaranteeing visibility across all themes.
+
+### 8.4 Official Branding Implementation
+- Replaced temporary "QUICK STRENGTH" text placeholders with official graphical assets (`qs-logo-txt.png` and `qs-logo-pic.png`).
+- Centralized assets within `src/assets/branding/`.
+- Implemented responsive conditional rendering: Desktop surfaces the full text logo, while Mobile surfaces the compact icon logo for improved safe-area spacing and thumb-friendly alignment.
+- Added full text logo to the interior of the mobile menu overlay to anchor the navigation sheet visually.
+- Enforced descriptive `alt` tags across all logo iterations for screen reader accessibility.
+
+### 8.5 UX Strategy: Single CTA Pathway
+- Removed all secondary 'Book Trial' actions from the navigation.
+- Hero and Navigation CTAs are unified around the single 'Start Assessment' intent, eliminating cognitive load.
+- Applied strict  across all instances.
+
+### 8.5 UX Strategy: Single CTA Pathway
+- Removed all secondary 'Book Trial' actions from the navigation.
+- Hero and Navigation CTAs are unified around the single 'Start Assessment' intent, eliminating cognitive load.
+- Applied strict aria-labels across all instances.

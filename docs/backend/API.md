@@ -27,7 +27,8 @@ Creates a new trial booking assessment payload along with availability preferenc
   "fee_acknowledgement": true,
   "preferred_days": ["Monday", "Wednesday"],
   "preferred_times": ["Morning"],
-  "timezone": "Asia/Kolkata"
+  "timezone": "Asia/Kolkata",
+  "booking_source": "instagram"
 }
 ```
 

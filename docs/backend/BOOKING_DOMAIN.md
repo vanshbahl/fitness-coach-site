@@ -79,6 +79,11 @@ Fields using JSON: `goals`, `equipment_available`, `preferred_days`, `preferred_
 
 ## 4. Internal Fields (Coach Dashboard Only)
 
+| Field | Description | Default | DB Type |
+| --- | --- | --- | --- |
+| `booking_source` | Analytics tracking (instagram, youtube, website, referral, direct) | `website` | `String/Enum` |
+
+
 These fields are never exposed directly to the public onboarding wizard. They are managed internally by the backend and the admin dashboard.
 
 | Field | Description | Default | DB Type |

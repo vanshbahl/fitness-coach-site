@@ -12,8 +12,8 @@
 - [x] Configure Tailwind CSS v4 and `shadcn/ui`
 - [x] Set up Framer Motion for animations
 - [x] Implement routing with React Router v7
-- [ ] Implement responsive app layout and theme provider
-- [ ] Build landing page (Hero, About Coach, Pricing)
+- [x] Implement responsive app layout and theme provider
+- [x] Build landing page (Hero, Floating Nav)
 - [ ] Build multi-step onboarding wizard
 - [ ] Form validation using Zod for each step
 
@@ -22,23 +22,36 @@
 - [x] Create FastAPI endpoints to accept full assessment payload
 - [x] Map frontend assessment data to Pydantic schemas
 
-## Phase 4: Payment Integration
+## Phase 4: Payment & Scheduling Integration
 - [ ] Integrate Razorpay API on backend (Order Creation & Verification)
-- [ ] Build Step 11: Secure Payment UI
-- [ ] Handle state transitions on payment success/failure
+- [ ] Build Payment UI (Payment occurs BEFORE slot confirmation)
+- [ ] Build Slot Selection UI
+- [ ] Handle state transitions on payment success and slot confirmation
 
-## Phase 5: Calendar & Success Flow
-- [ ] Integrate Google Calendar API (read availability, create events)
-- [ ] Implement Resend email confirmations
-- [ ] Build Step 12: Success Screen with celebration animations and WhatsApp CTA
+## Phase 5: Calendar, Meets & Email Flow
+- [ ] Integrate Google Calendar API (create events, generate Meet link)
+- [ ] Integrate Resend for Confirmation Emails (User & Coach)
+- [ ] Build Success Screen with celebration animations
 
-## Phase 6: Admin Dashboard
+## Phase 6: Admin Dashboard (Lightweight V1)
 - [ ] Implement JWT Authentication for Admin
 - [ ] Build Dashboard Layout (Sidebar, Header)
-- [ ] Build interactive Data Table to view rich assessment data
-- [ ] Implement Admin actions (Mark attendance, update status, view details)
+- [ ] Build Data Table to view Bookings, Payment Status, Calendar Status, and Coach Notes
+- [ ] Implement Admin actions (Search, Filters, View details)
 
 ## Phase 7: Deployment & Polish
 - [ ] Mobile responsiveness audit and thumb-reach optimization
 - [ ] Performance testing (Lighthouse)
 - [ ] Deploy to Vercel (Frontend), Railway (Backend), and Supabase (DB)
+
+## Future Enhancements (Version 2+)
+- WhatsApp Notifications
+- AI Workout Plans
+- Student Portal & Dashboard
+- Nutrition Plans
+- Progress Tracking & Attendance
+- Community Features
+- Subscription Billing
+- Referral System
+- Mobile Application
+- Analytics Dashboard
