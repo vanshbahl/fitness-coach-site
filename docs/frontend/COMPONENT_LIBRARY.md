@@ -28,3 +28,14 @@ A reusable inventory of standard UI components for the Quick Strength Frontend.
 - **Purpose**: Used in Step 7 to show previously entered data.
 - **Props**: `label: string`, `value: string | string[]`, `onEdit: () => void`.
 - **Usage**: Allows quick jump-back to previous steps if data is incorrect.
+
+### 7. Floating Navigation (`FloatingNav.tsx`) [IMPLEMENTED]
+- **Purpose**: A minimal, glassy navigation bar that slides down on load.
+- **Features**: Highly blurred background `backdrop-blur-xl`, primary CTA for "Book Trial".
+
+### 8. Landing Page Hero (`Hero.tsx`) [IMPLEMENTED]
+- **Purpose**: Immersive, premium introduction to Quick Strength.
+- **Features**: 
+  - Framer Motion staggered fade-up for high-impact typography.
+  - Dark overlay gradients ensuring text legibility over photography.
+  - High-hierarchy primary CTAs and social proof stats.
