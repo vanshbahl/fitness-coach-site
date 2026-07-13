@@ -1,29 +1,26 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
 from app.core.config import settings
 
-# Create async engine for PostgreSQL using SQLAlchemy 2.0
-engine = create_async_engine(
-    settings.DATABASE_URL,
-    echo=False,
-    future=True,
-    pool_pre_ping=True
-)
+url = settings.get_database_url
+is_sqlite = url.startswith("sqlite")
 
-# Async session factory
-AsyncSessionLocal = async_sessionmaker(
-    bind=engine,
-    class_=AsyncSession,
-    expire_on_commit=False,
-    autoflush=False
-)
+connect_args = {}
+if is_sqlite:
+    # SQLite-specific connection arguments
+    connect_args["check_same_thread"] = False
 
-async def get_db():
-    """
-    FastAPI Dependency that provides an active database session per request.
-    Yields an AsyncSession and ensures it is safely closed afterward.
-    """
-    async with AsyncSessionLocal() as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+# Base engine configuration
+engine_kwargs = {
+    "echo": settings.DEBUG,
+    "future": True,
+    "connect_args": connect_args
+}
+
+# Connection pooling for PostgreSQL (SQLite doesn't use the same pooling)
+if not is_sqlite:
+    engine_kwargs["pool_pre_ping"] = True
+    engine_kwargs["pool_size"] = 5
+    engine_kwargs["max_overflow"] = 10
+
+# Create the async engine
+engine = create_async_engine(url, **engine_kwargs)
