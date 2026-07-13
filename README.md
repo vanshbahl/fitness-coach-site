@@ -15,21 +15,21 @@
 
 A modern fitness coaching platform built for **Abhay Pandey (Quick Strength)**. This application replaces manual Google Form workflows with a seamless, premium booking experience for one-on-one trial sessions, fully integrated with Razorpay and Google Calendar.
 
-## ✨ Features
+##  Features
 
-### 🏋️ User Features
+###  User Features
 - **Coach Discovery:** Learn about the coach, calisthenics benefits, and read testimonials.
 - **Trial Booking:** Select available time slots directly from the coach's calendar.
 - **Frictionless Payment:** Securely pay the ₹49 trial fee via Razorpay.
 - **Automated Confirmations:** Receive instant email confirmations and Google Calendar invites.
 
-### 🛡️ Coach Dashboard Features
+###  Coach Dashboard Features
 - **Booking Management:** View, filter, and track all upcoming trial sessions.
 - **Payment Tracking:** Monitor payment statuses in real-time.
 - **Session Operations:** Mark attendance, add session notes, and manage trial enrollments.
 - **Automated Scheduling:** Zero manual intervention required for Google Calendar sync.
 
-### 🚀 Future Features
+###  Future Features
 - Client portal for tracking progress and workout plans.
 - Recurring subscription payments for enrolled students.
 - Rescheduling and cancellation workflows.
@@ -37,7 +37,7 @@ A modern fitness coaching platform built for **Abhay Pandey (Quick Strength)**. 
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Category | Technologies |
 | --- | --- |
@@ -49,7 +49,7 @@ A modern fitness coaching platform built for **Abhay Pandey (Quick Strength)**. 
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 quick-strength/
@@ -77,7 +77,7 @@ quick-strength/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone the Repository
 ```bash
@@ -118,7 +118,7 @@ npm run dev
 
 ---
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 <details>
 <summary><b>Backend <code>.env</code> Example</b></summary>
@@ -148,7 +148,7 @@ VITE_RAZORPAY_KEY_ID="rzp_test_xxxxxx"
 
 ---
 
-## 🔄 Development Workflow
+##  Development Workflow
 
 ### Git Workflow
 We follow a feature-branch workflow. All active development branches off `dev` and merges back into `dev` via Pull Requests. `main` strictly represents the production environment.
@@ -171,7 +171,7 @@ Keep the `/docs` folder updated when introducing architectural shifts or new API
 
 ---
 
-## 🗺️ Roadmap
+##  Roadmap
 
 - [x] Phase 1: Project Setup & Foundation
 - [ ] Phase 2: Landing Page (Public Website)
@@ -183,7 +183,7 @@ Keep the `/docs` folder updated when introducing architectural shifts or new API
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -193,7 +193,7 @@ Keep the `/docs` folder updated when introducing architectural shifts or new API
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
