@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quick-strength-backend"
+version = "0.1.0"
+description = "Backend for Quick Strength MVP"
+authors = [
+    {name = "Abhay Pandey"}
+]
+requires-python = ">=3.13"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
