@@ -26,10 +26,30 @@ graph TD
 - **Framework**: FastAPI (Python) for high performance and strict type validation.
 - **Database ORM**: SQLAlchemy 2.0 with Alembic for migrations.
 - **Data Validation**: Pydantic v2 schemas map directly to the interactive onboarding steps.
-- **Layered Design**:
-  - **Routers**: Clean endpoints for wizard submission and payment verification.
-  - **Services**: Business logic to handle the multi-step assessment payload, calendar syncing, and receipt generation.
-  - **Repositories**: SQLAlchemy data access layers.
+- **Strict Layered Design**: Business logic must never reside in FastAPI route handlers.
+  1. **Routers Layer (`app/api/v1/`)**: Exclusively handles HTTP requests, dependency injection, request validation via Pydantic, and returns formatted HTTP responses.
+  2. **Service Layer (`app/services/`)**: Contains pure business logic. Orchestrates operations across multiple models, handles external API calls (e.g., Razorpay), and raises domain exceptions.
+  3. **Database Layer (`app/models/`, `app/schemas/`)**: Defines SQLAlchemy ORM structures and Pydantic validation schemas.
+  4. **Core Layer (`app/core/`)**: Handles shared application configuration, custom exception definitions, and standardized API response formats.
+
+### Request Lifecycle Flow
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Router
+    participant Service
+    participant Database
+
+    Client->>Router: HTTP POST /api/v1/bookings/initiate
+    Note over Router: Validates Request (Pydantic)
+    Router->>Service: booking_service.create_booking(data)
+    Note over Service: Executes Business Logic
+    Service->>Database: Creates ORM Model Instance
+    Database-->>Service: Returns Saved Entity
+    Service-->>Router: Returns Domain Object
+    Note over Router: Formats API Response
+    Router-->>Client: HTTP 200 OK (SuccessResponse)
+```
 
 ## Data Flow: Interactive Booking
 ```mermaid

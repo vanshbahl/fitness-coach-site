@@ -16,9 +16,9 @@
 - [ ] Form validation using Zod for each step
 
 ## Phase 3: Booking Backend
-- [ ] Develop `trial_bookings` database models and migrations
-- [ ] Create FastAPI endpoints to accept full assessment payload
-- [ ] Map frontend assessment data to Pydantic schemas
+- [x] Develop `trial_bookings` database models and migrations
+- [x] Create FastAPI endpoints to accept full assessment payload
+- [x] Map frontend assessment data to Pydantic schemas
 
 ## Phase 4: Payment Integration
 - [ ] Integrate Razorpay API on backend (Order Creation & Verification)

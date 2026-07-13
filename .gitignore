@@ -1,8 +1,8 @@
 .agents/rules/
-TASKS.md
-UX_FLOW.md
-DATABASE.md
-ARCHITECTURE.md
-CODING_STANDARDS.md
+docs/TASKS.md
+docs/UX_FLOW.md
+docs/DATABASE.md
+docs/ARCHITECTURE.md
+docs/CODING_STANDARDS.md
 .gitignore
-BOOKING_DOMAIN.md
+docs/BOOKING_DOMAIN.md

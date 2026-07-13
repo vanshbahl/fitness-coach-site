@@ -3,102 +3,116 @@
 ## Base URL
 `/api/v1`
 
-## Authentication
-- **Public Endpoints**: No authentication required.
-- **Admin Endpoints**: Require a Bearer Token (JWT) passed in the `Authorization` header.
+## Bookings
 
-## Naming Conventions
-- URLs should be kebab-case (e.g., `/trial-bookings`).
-- JSON payloads should use snake_case (e.g., `razorpay_order_id`), handled automatically by FastAPI/Pydantic configurations.
+### POST `/bookings`
+Creates a new trial booking assessment payload along with availability preferences.
 
----
+**Request Body (JSON):**
+```json
+{
+  "name": "Virat Kohli",
+  "age": 35,
+  "gender": "male",
+  "city": "Delhi",
+  "whatsapp_number": "+919876543210",
+  "instagram_handle": "virat.kohli",
+  "height_cm": 175,
+  "weight_kg": 74.5,
+  "fitness_level": "intermediate",
+  "previous_experience": true,
+  "goals": ["Build Strength", "Learn Calisthenics"],
+  "equipment_available": ["Pull-up Bar"],
+  "preferred_duration": "3_months",
+  "fee_acknowledgement": true,
+  "preferred_days": ["Monday", "Wednesday"],
+  "preferred_times": ["Morning"],
+  "timezone": "Asia/Kolkata"
+}
+```
 
-## Public Endpoints
+**Response (201 Created):**
+```json
+{
+  "success": true,
+  "data": { ... booking details },
+  "message": "Booking created successfully"
+}
+```
 
-### 1. Get Available Slots
-Fetch available time slots for trial bookings based on coach availability.
-- **Method**: `GET`
-- **Endpoint**: `/availability`
-- **Query Params**: `date` (YYYY-MM-DD)
-- **Response**:
-  ```json
-  {
-    "date": "2023-11-01",
-    "available_slots": ["07:00:00", "08:00:00", "18:00:00"]
-  }
-  ```
+### GET `/bookings`
+Retrieve a paginated list of all bookings.
 
-### 2. Initiate Booking
-Create a pending booking and generate a Razorpay order.
-- **Method**: `POST`
-- **Endpoint**: `/bookings/initiate`
-- **Request Body**:
-  ```json
-  {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "9876543210",
-    "experience_level": "Beginner",
-    "goals": "Build muscle and learn handstands",
-    "scheduled_at": "2023-11-01T07:00:00Z"
-  }
-  ```
-- **Response** (200 OK):
-  ```json
-  {
-    "booking_id": "uuid",
-    "razorpay_order_id": "order_abc123",
-    "amount": 4900,
-    "currency": "INR"
-  }
-  ```
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": [ { ... booking details } ],
+  "message": null
+}
+```
 
-### 3. Verify Payment
-Verify the Razorpay signature, update booking status, and trigger calendar/email tasks.
-- **Method**: `POST`
-- **Endpoint**: `/bookings/verify`
-- **Request Body**:
-  ```json
-  {
-    "booking_id": "uuid",
-    "razorpay_order_id": "order_abc123",
-    "razorpay_payment_id": "pay_xyz789",
-    "razorpay_signature": "signature_hash"
-  }
-  ```
-- **Response** (200 OK):
-  ```json
-  {
-    "status": "success",
-    "message": "Booking confirmed successfully"
-  }
-  ```
+### GET `/bookings/{booking_id}`
+Retrieve detailed assessment information for a specific booking ID.
 
----
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": { ... booking details },
+  "message": null
+}
+```
 
-## Admin Endpoints (Requires JWT)
+### PATCH `/bookings/{booking_id}`
+Update internal admin fields or status for a specific booking ID.
 
-### 1. Admin Login
-- **Method**: `POST`
-- **Endpoint**: `/auth/login`
-- **Request Body**: Form-data with `username` and `password`.
-- **Response**: `{"access_token": "jwt", "token_type": "bearer"}`
+**Request Body (JSON):**
+```json
+{
+  "coach_notes": "VIP Client"
+}
+```
 
-### 2. Get All Bookings
-- **Method**: `GET`
-- **Endpoint**: `/admin/bookings`
-- **Query Params**: `status`, `page`, `limit`
-- **Response**: Array of booking objects.
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": { ... updated booking details },
+  "message": "Booking updated successfully"
+}
+```
 
-### 3. Update Booking (Attendance/Notes/Status)
-- **Method**: `PATCH`
-- **Endpoint**: `/admin/bookings/{booking_id}`
-- **Request Body**:
-  ```json
-  {
-    "attendance": true,
-    "admin_notes": "Great potential, wants to enroll.",
-    "status": "enrolled"
-  }
-  ```
-- **Response**: Updated booking object.
+### DELETE `/bookings/{booking_id}`
+Permanently delete a booking.
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": null,
+  "message": "Booking deleted successfully"
+}
+```
+
+## Standard Responses
+
+All API responses follow a standard envelope:
+
+**Success:**
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Optional message"
+}
+```
+
+**Error:**
+```json
+{
+  "success": false,
+  "error": "ErrorType",
+  "detail": "Detailed explanation of the error."
+}
+```
