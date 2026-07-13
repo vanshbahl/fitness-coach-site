@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Booking } from "../../../models/booking";
+import { BookingResponse } from "../../../types/api";
 
 interface BookingSummaryProps {
-  booking: Booking;
+  booking: BookingResponse;
   selectedDate: string;
   selectedTime: string;
 }

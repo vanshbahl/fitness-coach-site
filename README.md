@@ -171,15 +171,25 @@ Keep the `/docs` folder updated when introducing architectural shifts or new API
 
 ---
 
+##  Current Project Status
+
+**Overall Completion: ~65%**
+- **Phase 1 (Frontend Booking Journey):** ✅ Completed (Assessment Wizard, Flows, UI)
+- **Phase 2 (Frontend Refinements):** ✅ Completed (React Query, Architecture)
+- **Phase 3 (Backend Foundation):** ✅ Completed (SQLite setup, Booking CRUD, Axios connected)
+- **Next Up:** Implementing Slot Scheduling, Payment Gateway (Razorpay), and Google Calendar integrations.
+
+---
+
 ##  Roadmap
 
-- [x] Phase 1: Project Setup & Foundation
-- [ ] Phase 2: Landing Page (Public Website)
-- [ ] Phase 3: Booking System Core
-- [ ] Phase 4: Payments & Confirmation
-- [ ] Phase 5: Admin Dashboard
-- [ ] Phase 6: Testing & Refinement
-- [ ] Phase 7: Deployment
+- [x] Phase 1: Frontend Booking Journey (UI/UX)
+- [x] Phase 2: Frontend Data Architecture
+- [x] Phase 3: Backend Foundation (Database & API)
+- [ ] Phase 4: Integrations (Payments, Calendar, Email)
+- [ ] Phase 5: Admin Dashboard & Client Portal
+- [ ] Phase 6: Testing & Polish
+- [ ] Phase 7: Production Deployment
 
 ---
 

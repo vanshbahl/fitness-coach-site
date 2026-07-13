@@ -4,11 +4,11 @@ import { useNavigate } from "react-router";
 import { Home, X } from "lucide-react";
 import { FloatingNextButton } from "./FloatingNextButton";
 import { ProgressStepper } from "./ProgressStepper";
+import { DevRestartButton } from "../../../components/DevRestartButton";
 
 interface AssessmentLayoutProps {
   children: ReactNode;
   currentStep: number;
-  onReset?: () => void;
   direction?: number;
   isSaving?: boolean;
   isValid?: boolean;
@@ -19,7 +19,6 @@ interface AssessmentLayoutProps {
 export function AssessmentLayout({
   children,
   currentStep,
-  onReset,
   direction = 1,
   isSaving = false,
   isValid = true,
@@ -88,15 +87,7 @@ export function AssessmentLayout({
             <span className="hidden sm:inline font-medium text-sm">Home</span>
           </button>
 
-          {/* Dev Tool: Reset Form aligned properly */}
-          {import.meta.env.DEV && onReset && (
-            <button
-              onClick={onReset}
-              className="pointer-events-auto flex items-center h-9 px-3 rounded-lg text-xs font-medium text-zinc-400 border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              Restart
-            </button>
-          )}
+          <DevRestartButton />
         </div>
       </div>
 

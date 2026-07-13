@@ -3,6 +3,7 @@ import { FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useAssessmentForm } from "./useAssessmentForm";
 import { AssessmentLayout } from "./components/AssessmentLayout";
+import { useCreateBooking } from "../../hooks/api/booking";
 // Steps
 import { WelcomeScreen } from "./steps/WelcomeScreen";
 import { Step1Demographics } from "./steps/Step1Demographics";
@@ -22,6 +23,7 @@ export function AssessmentWizard() {
 
   const [direction, setDirection] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
+  const createBookingMutation = useCreateBooking();
 
   // Scroll to top on step change
   useEffect(() => {
@@ -63,12 +65,16 @@ export function AssessmentWizard() {
     }
 
     if (currentStep === 9) {
-      // Proceed to payment
       setIsSaving(true);
-      setTimeout(() => {
-        setIsSaving(false);
+      try {
+        const result = await createBookingMutation.mutateAsync(data);
+        localStorage.setItem("qs_booking_id", result.id);
         navigate("/payment");
-      }, 400); // allow morph animation to finish
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsSaving(false);
+      }
       return;
     }
 
@@ -93,10 +99,6 @@ export function AssessmentWizard() {
     <FormProvider {...form}>
       <AssessmentLayout
         currentStep={currentStep}
-        onReset={() => {
-          form.clearAssessmentData();
-          setCurrentStep(0);
-        }}
         direction={direction}
         isSaving={isSaving}
         isValid={isStepValid()}

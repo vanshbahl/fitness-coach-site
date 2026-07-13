@@ -1,30 +1,47 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Home } from "lucide-react";
 import { Link } from "react-router";
 
-import { useBookingStore } from "../features/booking/useBookingStore";
 import { BookingHero } from "../features/booking/components/BookingHero";
 import { WeeklyCalendar } from "../features/booking/components/WeeklyCalendar";
 import { TimeSlots } from "../features/booking/components/TimeSlots";
 import { BookingSummary } from "../features/booking/components/BookingSummary";
 import { FloatingConfirmButton } from "../features/booking/components/FloatingConfirmButton";
+import { DevRestartButton } from "../components/DevRestartButton";
+
+import { useBookingStatus, useAvailableSlots, useScheduleSlot } from "../hooks/api/booking";
 
 export default function ScheduleBookingPage() {
-  useParams<{ token: string }>();
+  const bookingId = localStorage.getItem("qs_booking_id");
+  const { data: booking, isLoading: bookingLoading } = useBookingStatus(bookingId);
+  const { data: availableSlots = [], isLoading: slotsLoading } = useAvailableSlots(bookingId);
+  const scheduleMutation = useScheduleSlot();
+  
   const navigate = useNavigate();
-  const { booking, isLoaded, scheduleBooking } = useBookingStore();
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  if (!isLoaded) return null;
+  if (bookingLoading || slotsLoading) {
+    return (
+      <div className="min-h-[100dvh] bg-black text-white flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!booking) return null;
 
   const handleConfirm = () => {
-    if (selectedDate && selectedTime) {
-      scheduleBooking(selectedDate, selectedTime);
-      navigate("/booking");
+    if (selectedDate && selectedTime && bookingId) {
+      scheduleMutation.mutate(
+        { bookingId, payload: { date: selectedDate, time: selectedTime } },
+        {
+          onSuccess: () => navigate("/booking")
+        }
+      );
     }
   };
 
@@ -58,6 +75,7 @@ export default function ScheduleBookingPage() {
             <Home className="w-5 h-5" />
             <span className="hidden sm:inline font-medium text-sm">Dashboard</span>
           </Link>
+          <DevRestartButton />
         </div>
       </div>
 
@@ -68,6 +86,7 @@ export default function ScheduleBookingPage() {
 
           <WeeklyCalendar 
             selectedDate={selectedDate} 
+            availableSlots={availableSlots}
             onSelectDate={(date) => {
               setSelectedDate(date);
               setSelectedTime(null); // Reset time when date changes
@@ -80,6 +99,7 @@ export default function ScheduleBookingPage() {
                 key="timeslots"
                 selectedDate={selectedDate}
                 selectedTime={selectedTime}
+                availableSlots={availableSlots}
                 onSelectTime={setSelectedTime}
               />
             )}

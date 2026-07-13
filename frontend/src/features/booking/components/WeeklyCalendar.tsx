@@ -1,9 +1,12 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 
+import { SlotResponse } from "../../../types/api";
+
 interface WeeklyCalendarProps {
   selectedDate: string | null;
   onSelectDate: (date: string) => void;
+  availableSlots?: SlotResponse[];
 }
 
 // Generate next 14 days
@@ -33,8 +36,24 @@ const generateDays = () => {
 
 const MOCK_DAYS = generateDays();
 
-export function WeeklyCalendar({ selectedDate, onSelectDate }: WeeklyCalendarProps) {
+export function WeeklyCalendar({ selectedDate, onSelectDate, availableSlots = [] }: WeeklyCalendarProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Map slots by date to easily check availability
+  const slotsByDate = availableSlots.reduce((acc, slot) => {
+    if (slot.isAvailable) {
+      if (!acc[slot.date]) acc[slot.date] = 0;
+      acc[slot.date]++;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+
+  const displayDays = availableSlots.length > 0 
+    ? MOCK_DAYS.map(day => ({
+        ...day,
+        isAvailable: (slotsByDate[day.id] || 0) > 0
+      }))
+    : MOCK_DAYS;
 
   return (
     <motion.div
@@ -53,7 +72,7 @@ export function WeeklyCalendar({ selectedDate, onSelectDate }: WeeklyCalendarPro
         className="flex overflow-x-auto gap-3 pb-4 -mx-6 px-6 sm:mx-0 sm:px-0 scrollbar-hide snap-x"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {MOCK_DAYS.map((day) => {
+        {displayDays.map((day) => {
           const isSelected = selectedDate === day.id;
           
           return (

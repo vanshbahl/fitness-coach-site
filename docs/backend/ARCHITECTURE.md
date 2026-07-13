@@ -64,3 +64,13 @@ Keep architecture intentionally lightweight. **Do not** introduce Redis, Celery,
 ## Deployment Architecture
 - **Backend**: Deployed on **Railway**. Handles environment variables securely and scales easily.
 - **Database**: **Supabase** (Managed PostgreSQL) for production, providing connection pooling (PgBouncer). Local development uses **SQLite** automatically via environment variables for zero-config onboarding.
+
+## Current Implementation Status
+As of Phase 3, the backend foundation is fully laid and operational:
+- **Fully Operational**: The Booking CRUD (`POST /api/v1/bookings`, `GET /api/v1/bookings/{id}`) is live. The SQLite development database is functioning correctly and successfully persisting real assessment payloads directly from the frontend React Query mutations.
+- **Temporarily Mocked (Frontend Layer)**: The backend endpoints for the following features have not yet been built, and are currently gracefully mocked in the frontend service layer:
+  - Slot selection & available times retrieval
+  - Booking scheduling (`POST /schedule`)
+  - Payment Gateway (Razorpay) integration
+  - Google Calendar event generation
+  - Automated Confirmation Emails (Resend)

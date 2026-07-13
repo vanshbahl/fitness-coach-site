@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import { CheckCircle2, Home, Calendar } from "lucide-react";
+import { DevRestartButton } from "../components/DevRestartButton";
 
 export default function SuccessPage() {
   const navigate = useNavigate();
@@ -85,6 +86,10 @@ export default function SuccessPage() {
             <Home className="w-5 h-5 mr-2" />
             Return Home
           </button>
+          
+          <div className="flex justify-center mt-2">
+            <DevRestartButton />
+          </div>
         </motion.div>
       </main>
     </div>

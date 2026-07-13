@@ -1,14 +1,34 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router";
 import { Clock, Calendar as CalendarIcon, Video, ArrowLeft, CheckCircle2, ArrowRight } from "lucide-react";
-import { useBookingStore } from "../features/booking/useBookingStore";
-import { BookingStatus } from "../models/booking";
+import { useBookingStatus } from "../hooks/api/booking";
+import { BookingStatus } from "../types/api";
+import { DevRestartButton } from "../components/DevRestartButton";
 
 export default function BookingStatusPage() {
-  const { booking, isLoaded } = useBookingStore();
+  const bookingId = localStorage.getItem("qs_booking_id");
+  const { data: booking, isLoading, isError } = useBookingStatus(bookingId);
   const navigate = useNavigate();
 
-  if (!isLoaded) return null;
+  if (isLoading) {
+    return (
+      <div className="min-h-[100dvh] bg-black text-white flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (isError || !booking) {
+    return (
+      <div className="min-h-[100dvh] bg-black text-white flex items-center justify-center p-6 text-center">
+        <div>
+          <h2 className="text-xl font-bold mb-2">Booking Not Found</h2>
+          <p className="text-zinc-400 mb-6">We couldn't load your booking details.</p>
+          <button onClick={() => navigate("/")} className="px-6 py-3 bg-white text-black font-bold rounded-xl">Return Home</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[100dvh] bg-black text-white selection:bg-white selection:text-black flex flex-col overflow-hidden relative pb-20">
@@ -33,7 +53,7 @@ export default function BookingStatusPage() {
             <span className="text-sm font-medium">Home</span>
           </Link>
           <span className="text-sm font-bold tracking-widest uppercase text-white">Booking Status</span>
-          <div className="w-16" /> {/* spacer */}
+          <DevRestartButton />
         </div>
       </header>
 
@@ -64,7 +84,7 @@ export default function BookingStatusPage() {
               className="mt-8"
             >
               <button
-                onClick={() => navigate(`/booking/${booking.bookingId}/schedule`)}
+                onClick={() => navigate(`/booking/${booking.id}/schedule`)}
                 className="w-full h-14 rounded-2xl bg-white text-black font-bold text-base flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 Schedule Session
