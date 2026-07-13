@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 import { Menu, X } from "lucide-react";
 
 import logoText from "@/assets/branding/qs-logo-txt.png";
@@ -38,8 +38,8 @@ export function FloatingNav() {
   return (
     <>
       <motion.header 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ y: -20 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-0 inset-x-0 z-50 px-4 pt-4 pb-4 pointer-events-none"
       >
@@ -70,9 +70,13 @@ export function FloatingNav() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button size="sm" className="rounded-full font-semibold h-9 px-5 text-xs bg-white text-black hover:bg-zinc-200 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black transition-colors" aria-label="Start your assessment">
+            <Link 
+              to="/assessment"
+              className="inline-flex items-center justify-center rounded-full font-semibold h-9 px-5 text-xs bg-white text-black hover:bg-zinc-200 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black transition-colors" 
+              aria-label="Start your assessment"
+            >
               Start Assessment
-            </Button>
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -135,9 +139,14 @@ export function FloatingNav() {
                 transition={{ delay: 0.35, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col gap-4 w-full"
               >
-                <button className="w-full flex items-center justify-center rounded-xl bg-white text-black font-semibold h-14 text-lg active:scale-[0.98] transition-all hover:bg-zinc-200" onClick={() => setIsOpen(false)} aria-label="Start your assessment">
+                <Link 
+                  to="/assessment"
+                  className="w-full flex items-center justify-center rounded-xl bg-white text-black font-semibold h-14 text-lg active:scale-[0.98] transition-all hover:bg-zinc-200" 
+                  onClick={() => setIsOpen(false)} 
+                  aria-label="Start your assessment"
+                >
                   Start Assessment
-                </button>
+                </Link>
               </motion.div>
             </nav>
           </motion.div>

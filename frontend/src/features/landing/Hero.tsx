@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 import { ArrowRight, ChevronDown, Clock, Activity, CheckCircle2 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.png";
 
@@ -9,7 +9,7 @@ export function Hero() {
   // Optimized for cinematic feel without excessive movement
   const FADE_UP_VARIANTS = {
     hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 10 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
   };
 
   return (
@@ -76,14 +76,14 @@ export function Hero() {
 
           {/* 6. CTA Refinement */}
           <motion.div variants={FADE_UP_VARIANTS} className="flex flex-col gap-6 mb-12">
-            <Button 
-              size="lg" 
-              className="h-14 px-8 text-base sm:text-lg font-semibold rounded-xl group w-full sm:w-auto self-start bg-white text-black hover:bg-zinc-200 active:scale-[0.98] transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            <Link 
+              to="/assessment"
+              className="h-14 px-8 flex items-center justify-center text-base sm:text-lg font-semibold rounded-xl group w-full sm:w-auto self-start bg-white text-black hover:bg-zinc-200 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               aria-label="Start your assessment"
             >
               Start Your Assessment
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            </Link>
             
             {/* 7. Metadata Chips - Linear style, elegant typography, high contrast text */}
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] font-medium text-zinc-300">

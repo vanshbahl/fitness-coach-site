@@ -85,3 +85,16 @@ A reusable inventory of standard UI components for the Quick Strength Frontend.
 - Removed all secondary 'Book Trial' actions from the navigation.
 - Hero and Navigation CTAs are unified around the single 'Start Assessment' intent, eliminating cognitive load.
 - Applied strict aria-labels across all instances.
+
+### 9.0 Assessment Wizard Architecture
+- **AssessmentLayout**: Wraps the AnimatePresence logic for all steps.
+- **ProgressStepper**: Custom visual animated step line replacing standard progress bars.
+- **OptionCard / SelectionChip**: Premium visual tap targets for avoiding typing.
+- **WheelPicker**: CSS scroll-snap implementation of iOS-style vertical pickers.
+- **SegmentedControl**: Animated React pill toggle.
+- **AssessmentWizard**: The main routing hub and FormProvider.
+
+### 9.1 Premium Component State Updates
+- **OptionCard**: Uses border-white/5 and inset shadows for a glassy look.
+- **FloatingNextButton**: Implements Framer Motion whileTap for realistic depth compression.
+- **EncouragementMessage**: Renders at the bottom of the viewport with a radial ambient background glow.

@@ -77,3 +77,12 @@ To eliminate cognitive load and prevent duplicate actions, the application follo
 5. **Payment Complete**: `Choose Trial Time`
 6. **Slot Selection**: `Confirm Booking`
 7. **Success Screen**: `Return Home` (Booking Confirmed)
+
+## Assessment Philosophy
+Text inputs are delayed until Step 7. Steps 1-6 rely entirely on WheelPickers, SelectionChips, and OptionCards to capture maximum momentum and reduce cognitive load. Progress is auto-saved locally so sessions are never lost.
+
+## Release Candidate Polish
+Introduced Apple/Linear style premium UX polish. The background now features an ambient, slow-moving blurred mesh with a static grain overlay. Component micro-interactions utilize Framer Motion spring physics for 0.98 scale compressions and haptic-style slides. The toast notification was moved to the bottom with an emerald radial glow to reward progression securely.
+
+## Dynamic Feedback
+Added contextual dynamic encouragement messages in the Assessment Wizard that react to user choices (e.g., beginner vs advanced experience, equipment limitations, and primary goals like weight loss).
