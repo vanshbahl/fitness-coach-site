@@ -5,14 +5,16 @@
 - [x] Setup Frontend (React + Vite + Tailwind + shadcn)
 - [x] Setup Backend (FastAPI + SQLAlchemy + Alembic)
 - [x] Configure Database (Supabase PostgreSQL / SQLite)
-- [ ] Define global design tokens (colors, typography, spacing)
+- [x] Define global design tokens (colors, typography, spacing)
 
-## Phase 2: Interactive Onboarding Wizard (Frontend)
-- [ ] Build Wizard state management (Context/Zustand)
-- [ ] Create base layout (mobile-first container, progress bar)
-- [ ] Develop interactive UI components (Visual sliders, selectable cards, chips)
-- [ ] Implement Step 1-10 UI components
-- [ ] Add Framer Motion transitions between steps
+## Phase 2: Frontend Setup
+- [x] Initialize React 19 + Vite + TypeScript project
+- [x] Configure Tailwind CSS v4 and `shadcn/ui`
+- [x] Set up Framer Motion for animations
+- [x] Implement routing with React Router v7
+- [ ] Implement responsive app layout and theme provider
+- [ ] Build landing page (Hero, About Coach, Pricing)
+- [ ] Build multi-step onboarding wizard
 - [ ] Form validation using Zod for each step
 
 ## Phase 3: Booking Backend
