@@ -1,47 +1,42 @@
 # Development Roadmap
 
-## Phase 1: Project Setup & Foundation
-- Initialize Git repository.
-- Setup Frontend (React + Vite + Tailwind + shadcn).
-- Setup Backend (FastAPI + SQLAlchemy + Alembic).
-- Configure Database (Supabase PostgreSQL).
-- Define project folder structures and base configurations.
+## Phase 1: Foundation
+- [x] Initialize Git repository
+- [x] Setup Frontend (React + Vite + Tailwind + shadcn)
+- [x] Setup Backend (FastAPI + SQLAlchemy + Alembic)
+- [x] Configure Database (Supabase PostgreSQL / SQLite)
+- [ ] Define global design tokens (colors, typography, spacing)
 
-## Phase 2: Landing Page (Public Website)
-- Build Hero Section with strong CTA.
-- Build "About Coach" section.
-- Build "Why Calisthenics" & "Benefits" sections.
-- Build Testimonials and FAQ.
-- Implement Framer Motion for scroll reveals and premium feel.
+## Phase 2: Interactive Onboarding Wizard (Frontend)
+- [ ] Build Wizard state management (Context/Zustand)
+- [ ] Create base layout (mobile-first container, progress bar)
+- [ ] Develop interactive UI components (Visual sliders, selectable cards, chips)
+- [ ] Implement Step 1-10 UI components
+- [ ] Add Framer Motion transitions between steps
+- [ ] Form validation using Zod for each step
 
-## Phase 3: Booking System Core
-- Develop database models and migrations for Bookings.
-- Create FastAPI endpoints for availability and booking initiation.
-- Build Frontend Booking Form (React Hook Form + Zod validation).
-- Integrate Google Calendar API (read free/busy time).
+## Phase 3: Booking Backend
+- [ ] Develop `trial_bookings` database models and migrations
+- [ ] Create FastAPI endpoints to accept full assessment payload
+- [ ] Map frontend assessment data to Pydantic schemas
 
-## Phase 4: Payments & Confirmation
-- Integrate Razorpay API on backend (Create Order, Verify Signature).
-- Integrate Razorpay Checkout on frontend.
-- Handle payment success/failure edge cases.
-- Setup Resend for automated transactional emails (Receipts & Confirmations).
-- Setup automated Google Calendar event creation on payment success.
+## Phase 4: Payment Integration
+- [ ] Integrate Razorpay API on backend (Order Creation & Verification)
+- [ ] Build Step 11: Secure Payment UI
+- [ ] Handle state transitions on payment success/failure
 
-## Phase 5: Admin Dashboard
-- Implement JWT Authentication for Admin.
-- Build Dashboard Layout (Sidebar, Header).
-- Build Bookings Data Table (view all, filter by status).
-- Build Booking Detail view (mark attendance, add notes, convert to enrolled).
+## Phase 5: Calendar & Success Flow
+- [ ] Integrate Google Calendar API (read availability, create events)
+- [ ] Implement Resend email confirmations
+- [ ] Build Step 12: Success Screen with celebration animations and WhatsApp CTA
 
-## Phase 6: Testing & Refinement
-- End-to-end testing of the booking flow.
-- Mobile responsiveness audit.
-- Performance optimization (Lighthouse score).
-- Error handling refinement (Toast notifications, user-friendly messages).
+## Phase 6: Admin Dashboard
+- [ ] Implement JWT Authentication for Admin
+- [ ] Build Dashboard Layout (Sidebar, Header)
+- [ ] Build interactive Data Table to view rich assessment data
+- [ ] Implement Admin actions (Mark attendance, update status, view details)
 
-## Phase 7: Deployment
-- Deploy Database to Supabase (Production environment).
-- Deploy Backend to Railway.
-- Deploy Frontend to Vercel.
-- Configure custom domain and SSL.
-- Setup environment variables for production.
+## Phase 7: Deployment & Polish
+- [ ] Mobile responsiveness audit and thumb-reach optimization
+- [ ] Performance testing (Lighthouse)
+- [ ] Deploy to Vercel (Frontend), Railway (Backend), and Supabase (DB)

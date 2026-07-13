@@ -28,8 +28,8 @@
 
 ## Database
 
-### Supabase PostgreSQL
-- **Why**: Managed PostgreSQL that is easy to set up, offers generous free tiers, includes an integrated connection pooler (essential for modern deployments), and provides a clean dashboard.
+### Supabase PostgreSQL & SQLite
+- **Why**: Managed PostgreSQL that is easy to set up, offers generous free tiers, includes an integrated connection pooler (essential for modern deployments), and provides a clean dashboard. We use SQLite for local development to ensure a seamless, zero-config local setup.
 - **Alternatives Considered**: AWS RDS (too complex/expensive for MVP), MongoDB (relational data is better suited for bookings, users, and payments).
 
 ## Third-Party Integrations

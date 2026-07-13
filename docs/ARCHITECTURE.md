@@ -1,48 +1,49 @@
 # Architecture
 
 ## High-Level Architecture
-Quick Strength follows a decoupled, modern web architecture pattern comprising a statically hosted Single Page Application (SPA), a RESTful API backend, and a managed PostgreSQL database.
+Quick Strength follows a decoupled, modern web architecture pattern comprising a statically hosted Single Page Application (SPA) designed as an onboarding wizard, a RESTful API backend, and a managed PostgreSQL database.
 
 ```mermaid
 graph TD
-    Client[Web Browser] -->|HTTPS| Frontend[Vercel: React SPA]
+    Client[Web Browser - Mobile First] -->|HTTPS| Frontend[Vercel: React SPA Wizard]
     Client -->|REST API| Backend[Railway: FastAPI]
-    Backend -->|SQLAlchemy| DB[(Supabase PostgreSQL)]
+    Backend -->|SQLAlchemy| DB[(Supabase PostgreSQL / SQLite)]
     Backend -->|API| Razorpay[Razorpay Gateway]
     Backend -->|API| Calendar[Google Calendar API]
     Backend -->|API| Resend[Resend Email API]
 ```
 
-## Frontend Architecture
-- **Framework**: React 19 with Vite for fast HMR and optimized builds.
-- **State Management**: TanStack Query (React Query) for server state (data fetching, caching, synchronization). React Hook Form for local form state.
-- **Routing**: React Router for client-side navigation.
-- **Styling**: Tailwind CSS v4 coupled with shadcn/ui for accessible, unstyled components that we can heavily customize.
-- **Animations**: Framer Motion for premium micro-interactions and scroll reveals.
+## Frontend Architecture (The Onboarding Wizard)
+- **Framework**: React 19 with Vite.
+- **State Management**: 
+  - **Local State**: Context API or Zustand to maintain the onboarding wizard state across steps without losing data.
+  - **Form Validation**: React Hook Form paired with Zod, validating step-by-step.
+  - **Server State**: TanStack Query for data fetching (like fetching available slots) and mutations.
+- **Styling**: Tailwind CSS v4 + shadcn/ui. Heavily customized for a premium, minimal aesthetic. 
+- **Animations**: Framer Motion is critical here. It handles step transitions, micro-interactions, progress bar fills, and the final celebration screen.
 
 ## Backend Architecture
-- **Framework**: FastAPI (Python) for high performance, automatic OpenAPI documentation, and robust type validation.
-- **Database ORM**: SQLAlchemy 2.0 (async preferred or standard sync depending on load) with Alembic for migrations.
-- **Data Validation**: Pydantic v2 for request/response schemas and environment variable validation.
+- **Framework**: FastAPI (Python) for high performance and strict type validation.
+- **Database ORM**: SQLAlchemy 2.0 with Alembic for migrations.
+- **Data Validation**: Pydantic v2 schemas map directly to the interactive onboarding steps.
 - **Layered Design**:
-  - **Routers/Controllers**: Handle HTTP requests and responses.
-  - **Services**: Contain business logic (e.g., booking creation, payment verification).
-  - **Repositories/Data Access**: Handle database interactions via SQLAlchemy.
+  - **Routers**: Clean endpoints for wizard submission and payment verification.
+  - **Services**: Business logic to handle the multi-step assessment payload, calendar syncing, and receipt generation.
+  - **Repositories**: SQLAlchemy data access layers.
 
-## Data Flow: Booking a Trial
+## Data Flow: Interactive Booking
 ```mermaid
 sequenceDiagram
     participant User
     participant Frontend
     participant FastAPI
     participant Razorpay
-    participant DB
-    participant GoogleCal
-    participant Resend
+    participant Calendar
 
-    User->>Frontend: Selects Slot & Fills Details
-    Frontend->>FastAPI: POST /api/bookings/initiate
-    FastAPI->>DB: Create Booking (Status: Pending)
+    User->>Frontend: Navigates through 10-step wizard
+    Frontend->>Frontend: Validates & saves progress in local state
+    User->>Frontend: Reviews summary & proceeds to payment
+    Frontend->>FastAPI: POST /api/bookings/initiate (Sends full assessment payload)
     FastAPI->>Razorpay: Create Order (₹49)
     Razorpay-->>FastAPI: Order ID
     FastAPI-->>Frontend: Return Order ID
@@ -50,46 +51,12 @@ sequenceDiagram
     User->>Razorpay: Completes Payment
     Razorpay-->>Frontend: Payment Success Token
     Frontend->>FastAPI: POST /api/bookings/verify
-    FastAPI->>Razorpay: Verify Signature
-    FastAPI->>DB: Update Booking (Status: Paid)
-    FastAPI->>GoogleCal: Create Calendar Event
-    FastAPI->>Resend: Send Confirmation Email
+    FastAPI->>Calendar: Create Calendar Event
     FastAPI-->>Frontend: Success Response
-    Frontend-->>User: Show Success Page
+    Frontend-->>User: Show Celebration & WhatsApp Join Link
 ```
 
 ## Deployment Architecture
-- **Frontend**: Deployed on **Vercel**. Provides edge caching, automatic CI/CD from GitHub, and PR preview environments.
-- **Backend**: Deployed on **Railway**. Easy deployment for Python/Docker applications, handles environment variables securely, and offers simple scaling.
-- **Database**: **Supabase** (Managed PostgreSQL). Provides connection pooling (PgBouncer) which is crucial for serverless/edge environments.
-
-## Folder Structure (High Level)
-```text
-quick-strength/
-├── frontend/             # Vite + React App
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/       # Images, global css
-│   │   ├── components/   # Shared UI components (shadcn)
-│   │   ├── features/     # Feature-based modules (landing, booking, admin)
-│   │   ├── hooks/        # Custom React hooks
-│   │   ├── lib/          # Utilities, API client configuration
-│   │   ├── routes/       # Route definitions
-│   │   └── store/        # Global state (if any)
-│   └── package.json
-│
-├── backend/              # FastAPI App
-│   ├── alembic/          # Database migrations
-│   ├── app/
-│   │   ├── api/          # Routers and endpoints
-│   │   ├── core/         # Config, security, database setup
-│   │   ├── models/       # SQLAlchemy models
-│   │   ├── schemas/      # Pydantic models
-│   │   ├── services/     # Business logic layer
-│   │   └── utils/        # Helper functions
-│   ├── main.py           # Application entry point
-│   ├── requirements.txt  # Python dependencies
-│   └── alembic.ini
-│
-└── docs/                 # Project documentation
-```
+- **Frontend**: Deployed on **Vercel**. Provides edge caching and instant PR previews.
+- **Backend**: Deployed on **Railway**. Handles environment variables securely and scales easily.
+- **Database**: **Supabase** (Managed PostgreSQL) for production, providing connection pooling (PgBouncer). Local development uses **SQLite** automatically via environment variables for zero-config onboarding.
