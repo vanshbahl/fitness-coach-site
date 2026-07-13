@@ -7,9 +7,10 @@ interface FloatingNextButtonProps {
   disabled?: boolean;
   label?: string;
   isSaving?: boolean;
+  savingLabel?: string;
 }
 
-export function FloatingNextButton({ onNext, onBack, disabled = false, label = "Continue", isSaving = false }: FloatingNextButtonProps) {
+export function FloatingNextButton({ onNext, onBack, disabled = false, label = "Continue", isSaving = false, savingLabel = "Saved" }: FloatingNextButtonProps) {
   return (
     <div className="fixed bottom-[env(safe-area-inset-bottom,0px)] left-0 right-0 p-4 sm:p-6 z-40 pointer-events-none">
       <motion.div layout className="max-w-md mx-auto flex items-center justify-between gap-3 relative pointer-events-auto">
@@ -68,7 +69,7 @@ export function FloatingNextButton({ onNext, onBack, disabled = false, label = "
                 className="flex items-center gap-2 relative z-10"
               >
                 <Check className="w-5 h-5" />
-                <span>Saved</span>
+                <span>{savingLabel}</span>
               </motion.div>
             ) : (
               <motion.div

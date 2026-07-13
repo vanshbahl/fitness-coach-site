@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { FormProvider } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { useAssessmentForm } from "./useAssessmentForm";
 import { AssessmentLayout } from "./components/AssessmentLayout";
-import { ProgressStepper } from "./components/ProgressStepper";
-
 // Steps
 import { WelcomeScreen } from "./steps/WelcomeScreen";
 import { Step1Demographics } from "./steps/Step1Demographics";
@@ -15,15 +14,15 @@ import { Step6Medical } from "./steps/Step6Medical";
 import { Step7Contact } from "./steps/Step7Contact";
 import { Step8Commitment } from "./steps/Step8Commitment";
 import { Step9Review } from "./steps/Step9Review";
-import { Step10Preparation } from "./steps/Step10Preparation";
 
 export function AssessmentWizard() {
   const [currentStep, setCurrentStep] = useState(0);
   const form = useAssessmentForm();
+  const navigate = useNavigate();
 
   const [direction, setDirection] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
-  
+
   // Scroll to top on step change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -33,6 +32,7 @@ export function AssessmentWizard() {
 
   const isStepValid = () => {
     switch (currentStep) {
+      case 1: return !!data.age && !!data.gender && !!data.previousExperience;
       case 2: return data.goals && data.goals.length > 0;
       case 3: return data.equipment && data.equipment.length > 0;
       case 4: return data.preferredDays && data.preferredDays.length > 0 && data.preferredTime && data.preferredTime.length > 0;
@@ -62,21 +62,21 @@ export function AssessmentWizard() {
       if (!isValid) return;
     }
 
-    if (currentStep === 10) {
+    if (currentStep === 9) {
+      // Proceed to payment
       setIsSaving(true);
       setTimeout(() => {
-        form.clearAssessmentData();
-        setCurrentStep(0);
         setIsSaving(false);
-      }, 600);
+        navigate("/payment");
+      }, 400); // allow morph animation to finish
       return;
     }
 
-    // Success transition (Bug 5)
+    // Success transition
     setIsSaving(true);
     setTimeout(() => {
       setDirection(1);
-      setCurrentStep(prev => Math.min(prev + 1, 10));
+      setCurrentStep(prev => Math.min(prev + 1, 9));
       setIsSaving(false);
     }, 400); // allow morph animation to finish
   };
@@ -91,8 +91,8 @@ export function AssessmentWizard() {
 
   return (
     <FormProvider {...form}>
-      <AssessmentLayout 
-        currentStep={currentStep} 
+      <AssessmentLayout
+        currentStep={currentStep}
         onReset={() => {
           form.clearAssessmentData();
           setCurrentStep(0);
@@ -103,9 +103,7 @@ export function AssessmentWizard() {
         onNext={handleNext}
         onBack={currentStep > 0 ? handleBack : undefined}
       >
-        <ProgressStepper currentStep={currentStep} totalSteps={10} />
-        
-        {currentStep === 0 && <WelcomeScreen onNext={handleNext} />}
+        {currentStep === 0 && <WelcomeScreen />}
         {currentStep === 1 && <Step1Demographics />}
         {currentStep === 2 && <Step2Goals />}
         {currentStep === 3 && <Step3Equipment />}
@@ -115,7 +113,6 @@ export function AssessmentWizard() {
         {currentStep === 7 && <Step7Contact />}
         {currentStep === 8 && <Step8Commitment />}
         {currentStep === 9 && <Step9Review onEditStep={setCurrentStep} />}
-        {currentStep === 10 && <Step10Preparation />}
       </AssessmentLayout>
     </FormProvider>
   );

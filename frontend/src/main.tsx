@@ -5,6 +5,12 @@ import { BrowserRouter, Routes, Route } from 'react-router'
 import './styles/index.css'
 import LandingPage from './pages/LandingPage'
 import AssessmentPage from './pages/AssessmentPage'
+import PaymentPage from './pages/PaymentPage'
+import CheckoutLoadingPage from './pages/CheckoutLoadingPage'
+import SuccessPage from './pages/SuccessPage'
+import BookingStatusPage from './pages/BookingStatusPage'
+import ScheduleBookingPage from './pages/ScheduleBookingPage'
+
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
@@ -14,6 +20,11 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/assessment" element={<AssessmentPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/checkout" element={<CheckoutLoadingPage />} />
+          <Route path="/success" element={<SuccessPage />} />
+          <Route path="/booking" element={<BookingStatusPage />} />
+          <Route path="/booking/:token/schedule" element={<ScheduleBookingPage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
