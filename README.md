@@ -173,8 +173,8 @@ Keep the `/docs` folder updated when introducing architectural shifts or new API
 
 ##  Current Project Status
 
-**Overall Completion: ~65%**
-- **Phase 1 (Frontend Booking Journey):** ✅ Completed (Assessment Wizard, Flows, UI)
+**Overall Completion: ~68%**
+- **Phase 1 (Frontend Booking Journey):** ✅ Completed (Assessment Wizard, Flows, UI, Bug Fixes)
 - **Phase 2 (Frontend Refinements):** ✅ Completed (React Query, Architecture)
 - **Phase 3 (Backend Foundation):** ✅ Completed (SQLite setup, Booking CRUD, Axios connected)
 - **Next Up:** Implementing Slot Scheduling, Payment Gateway (Razorpay), and Google Calendar integrations.

@@ -32,7 +32,7 @@ export default function SuccessPage() {
             <CheckCircle2 className="w-10 h-10 text-emerald-400" />
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Booking Confirmed</h1>
-          <p className="text-zinc-400 text-lg">Your athlete profile and payment have been received.</p>
+          <p className="text-zinc-400 text-lg">Your session is scheduled and the calendar invite has been sent.</p>
         </motion.div>
 
         <motion.div
@@ -47,9 +47,9 @@ export default function SuccessPage() {
             {[
               { label: "Assessment Received", active: true },
               { label: "Payment Confirmed", active: true },
-              { label: "Coach Reviews Profile", active: false },
-              { label: "Google Meet Scheduled", active: false },
-              { label: "Confirmation Email Sent", active: false }
+              { label: "Session Scheduled", active: true },
+              { label: "Google Meet Link Generated", active: true },
+              { label: "Confirmation Email Sent", active: true }
             ].map((step, i) => (
               <div key={i} className="relative flex items-center gap-4">
                 <div className={`w-6 h-6 flex items-center justify-center rounded-full border shrink-0 z-10 bg-black ${step.active ? "border-emerald-500" : "border-white/10"}`}>
@@ -72,16 +72,8 @@ export default function SuccessPage() {
           className="flex flex-col gap-3 max-w-sm mx-auto"
         >
           <button
-            onClick={() => navigate("/booking")}
-            className="w-full h-14 rounded-2xl bg-white text-black font-bold text-base flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            <Calendar className="w-5 h-5 mr-2" />
-            View Booking Status
-          </button>
-          
-          <button
             onClick={() => navigate("/")}
-            className="w-full h-14 rounded-2xl bg-transparent border border-white/10 text-white font-medium text-base flex items-center justify-center hover:bg-white/5 transition-colors active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="w-full h-14 rounded-2xl bg-white text-black font-bold text-base flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <Home className="w-5 h-5 mr-2" />
             Return Home

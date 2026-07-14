@@ -7,7 +7,7 @@
 | **Frontend** | 90% |
 | **Backend** | 40% |
 | **Infrastructure** | 50% |
-| **Overall Project** | 65% |
+| **Overall Project** | 68% |
 
 ---
 
@@ -23,6 +23,7 @@
 - **Booking Flow UI:** Fully completed (Date selection, Time selection, Confirmation).
 - **Payment Preview (Frontend):** Fully completed.
 - **Booking Status Dashboard:** Fully completed.
+- **Bug Fixes:** Resolved edge cases with 'No Experience' validation and Review screen routing.
 
 ---
 

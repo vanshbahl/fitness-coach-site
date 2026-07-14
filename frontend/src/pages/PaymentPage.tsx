@@ -1,10 +1,23 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import { CheckCircle2, ShieldCheck, ArrowRight, Home } from "lucide-react";
+import { CheckCircle2, ShieldCheck, ArrowRight, Home, Loader2 } from "lucide-react";
 import { Link } from "react-router";
+import { STORAGE_KEY } from "../features/assessment/useAssessmentForm";
 
 export default function PaymentPage() {
   const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handlePayment = () => {
+    setIsProcessing(true);
+    // Simulate Razorpay mock process
+    setTimeout(() => {
+      // Clear assessment data to ensure clean state after payment
+      localStorage.removeItem(STORAGE_KEY);
+      navigate("/schedule");
+    }, 2000);
+  };
 
   return (
     <div className="min-h-[100dvh] bg-black text-white selection:bg-white selection:text-black flex flex-col overflow-hidden relative">
@@ -112,12 +125,22 @@ export default function PaymentPage() {
       <div className="fixed bottom-[env(safe-area-inset-bottom,0px)] left-0 right-0 p-4 sm:p-6 z-40 pointer-events-none">
         <motion.div className="max-w-md mx-auto relative pointer-events-auto">
           <button
-            onClick={() => navigate("/checkout")}
-            className="w-full h-14 sm:h-16 rounded-2xl bg-white text-black font-bold text-base sm:text-lg flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            onClick={handlePayment}
+            disabled={isProcessing}
+            className="w-full h-14 sm:h-16 rounded-2xl bg-white text-black font-bold text-base sm:text-lg flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-80 disabled:pointer-events-none"
           >
-            <ShieldCheck className="w-5 h-5 mr-2" />
-            Continue to Secure Payment
-            <ArrowRight className="w-5 h-5 ml-2" />
+            {isProcessing ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Processing Payment...
+              </>
+            ) : (
+              <>
+                <ShieldCheck className="w-5 h-5 mr-2" />
+                Continue to Secure Payment
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </>
+            )}
           </button>
         </motion.div>
       </div>

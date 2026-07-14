@@ -79,27 +79,27 @@ Fields using JSON: `goals`, `equipment_available`, `preferred_days`, `preferred_
 
 ## 4. Internal Fields (Coach Dashboard Only)
 
-| Field | Description | Default | DB Type |
-| --- | --- | --- | --- |
-| `booking_source` | Analytics tracking (instagram, youtube, website, referral, direct) | `website` | `String/Enum` |
+These fields are never exposed directly to the public onboarding wizard. They are managed internally by the backend and the admin dashboard. The internal fields are normalized across the `Booking` and `Payment` models.
 
-
-These fields are never exposed directly to the public onboarding wizard. They are managed internally by the backend and the admin dashboard.
-
+### Booking Model Internal Fields
 | Field | Description | Default | DB Type |
 | --- | --- | --- | --- |
 | `booking_status` | Overall status of the trial session | `pending` | `Enum(BookingStatus)` |
-| `payment_status` | Status of the Razorpay transaction | `pending` | `Enum(PaymentStatus)` |
 | `trial_outcome` | The result of the trial session | `pending` | `Enum(TrialOutcome)` |
-| `razorpay_order_id`| Razorpay generated Order ID | `None` | `String` (Indexed) |
-| `razorpay_payment_id`| Razorpay Payment token | `None` | `String` |
-| `amount_paid` | Amount paid in paise (4900 = ₹49) | `4900` | `Integer` |
 | `scheduled_at` | The selected slot datetime | `None` | `DateTime(timezone=True)` |
 | `calendar_event_id`| Google Calendar Event identifier | `None` | `String` |
 | `meeting_link` | Google Meet URL | `None` | `String` |
 | `attendance` | Did the client attend the trial? | `False` | `Boolean` |
 | `coach_notes` | Private notes by the coach | `None` | `Text` |
 | `follow_up_date` | Date to follow up with lead | `None` | `DateTime(timezone=True)` |
+
+### Payment Model Fields (1-to-1 with Booking)
+| Field | Description | Default | DB Type |
+| --- | --- | --- | --- |
+| `status` | Status of the Razorpay transaction | `pending` | `Enum(PaymentStatus)` |
+| `razorpay_order_id`| Razorpay generated Order ID | `None` | `String` (Indexed) |
+| `razorpay_payment_id`| Razorpay Payment token | `None` | `String` |
+| `amount_paid` | Amount paid in paise (4900 = ₹49) | `4900` | `Integer` |
 
 ---
 

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [v0.4.1] - Maintenance & Documentation Audit
+### Fixed
+- Fixed critical onboarding UI bug where selecting 'No Experience' disabled the Continue button.
+- Refactored `Step9Review` to properly separate Demographics from Contact Info, fixing an issue where editing Name/City routed the user to the incorrect step.
+- Added missing Instagram and WhatsApp fields to the review screen.
+
+### Changed
+- Performed a comprehensive documentation audit across the repository.
+- Updated UX flows, Database schemas, Roadmap, and Progress files to accurately mirror the current implementation.
+
+---
+
 ## [v0.4.0] - End of Phase 3
 ### Added
 - Real backend API connection using Axios and React Query.

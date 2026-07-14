@@ -38,9 +38,7 @@ export default function ScheduleBookingPage() {
     if (selectedDate && selectedTime && bookingId) {
       scheduleMutation.mutate(
         { bookingId, payload: { date: selectedDate, time: selectedTime } },
-        {
-          onSuccess: () => navigate("/booking")
-        }
+          onSuccess: () => navigate("/success")
       );
     }
   };
@@ -68,13 +66,7 @@ export default function ScheduleBookingPage() {
       {/* Navigation */}
       <div className="absolute top-0 inset-x-0 z-50 p-6 flex items-center pointer-events-none">
         <div className="w-full max-w-2xl mx-auto flex items-center justify-between">
-          <Link
-            to="/booking"
-            className="pointer-events-auto flex items-center gap-2 h-9 px-2 -ml-2 text-zinc-500 hover:text-white transition-colors active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-lg"
-          >
-            <Home className="w-5 h-5" />
-            <span className="hidden sm:inline font-medium text-sm">Dashboard</span>
-          </Link>
+          <div className="font-bold text-white tracking-widest uppercase text-sm">Schedule Session</div>
           <DevRestartButton />
         </div>
       </div>

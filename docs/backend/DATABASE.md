@@ -15,7 +15,7 @@ Stores information about the coach/admin.
 - `role` (Enum: `admin`)
 - `created_at`, `updated_at` (Timestamps)
 
-### 2. `trial_bookings` (The Assessment Model)
+### 2. `bookings` (The Assessment Model)
 Captures the core onboarding wizard payload. While initially planned as a single flattened table, it is normalized into 1-to-1 relationships for Payment and Availability to ensure a cleaner architecture.
 
 *Refer to [BOOKING_DOMAIN.md](BOOKING_DOMAIN.md) for the exact schema mapping of this table.*
@@ -25,5 +25,5 @@ Captures the core onboarding wizard payload. While initially planned as a single
 - **Enums**: Strict SQLAlchemy Enums are used to prevent dirty data and enable precise analytics (e.g., `trial_outcome`, `fitness_level`).
 
 ## Relationships
-- For the MVP, `trial_bookings` operates independently. 
+- For the MVP, `bookings` operates independently. 
 - **Future Expansion**: Once the client portal is built, a `client_id` (Foreign Key to `users`) will link these robust assessments to registered user accounts, serving as the client's permanent fitness profile.

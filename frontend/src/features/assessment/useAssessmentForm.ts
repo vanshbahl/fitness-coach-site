@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { assessmentSchema, AssessmentFormData, defaultAssessmentValues } from "./schema";
 
-const STORAGE_KEY = "qs_assessment_draft";
+export const STORAGE_KEY = "qs_assessment_draft";
 
 export function useAssessmentForm(): UseFormReturn<AssessmentFormData> & { isLoaded: boolean, clearAssessmentData: () => void } {
   const [isLoaded, setIsLoaded] = useState(false);

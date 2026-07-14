@@ -34,7 +34,7 @@ export function AssessmentWizard() {
 
   const isStepValid = () => {
     switch (currentStep) {
-      case 1: return !!data.age && !!data.gender && !!data.previousExperience;
+      case 1: return !!data.age && !!data.gender && data.previousExperience !== undefined;
       case 2: return data.goals && data.goals.length > 0;
       case 3: return data.equipment && data.equipment.length > 0;
       case 4: return data.preferredDays && data.preferredDays.length > 0 && data.preferredTime && data.preferredTime.length > 0;

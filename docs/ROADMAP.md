@@ -14,8 +14,8 @@
 - [x] Implement routing with React Router v7
 - [x] Implement responsive app layout and theme provider
 - [x] Build landing page (Hero, Floating Nav)
-- [ ] Build multi-step onboarding wizard
-- [ ] Form validation using Zod for each step
+- [x] Build multi-step onboarding wizard
+- [x] Form validation using Zod for each step
 
 ## Phase 3: Booking Backend
 - [x] Develop `trial_bookings` database models and migrations
@@ -24,8 +24,8 @@
 
 ## Phase 4: Payment & Scheduling Integration
 - [ ] Integrate Razorpay API on backend (Order Creation & Verification)
-- [ ] Build Payment UI (Payment occurs BEFORE slot confirmation)
-- [ ] Build Slot Selection UI
+- [x] Build Payment UI (Payment occurs BEFORE slot confirmation)
+- [x] Build Slot Selection UI
 - [ ] Handle state transitions on payment success and slot confirmation
 
 ## Phase 5: Calendar, Meets & Email Flow

@@ -38,8 +38,12 @@ export function Step9Review({   onEditStep }: Step9Props) {
         <div className="space-y-4 pb-32 mt-6 max-w-lg mx-auto w-full">
           
           <Section title="Demographics" step={1}>
+            <p className="text-zinc-400 mt-1">{data.age} Years • {data.gender} • {data.previousExperience ? 'Experienced' : 'Beginner'}</p>
+          </Section>
+
+          <Section title="Contact Info" step={7}>
             <p className="text-xl">{data.name}</p>
-            <p className="text-zinc-400 mt-1">{data.age} Years • {data.gender} • {data.city}</p>
+            <p className="text-zinc-400 mt-1">{data.city} • {data.whatsapp} {data.instagram ? `• @${data.instagram}` : ''}</p>
           </Section>
 
           <Section title="Body Metrics" step={5}>
