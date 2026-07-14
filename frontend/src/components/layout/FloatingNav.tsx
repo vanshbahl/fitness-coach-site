@@ -15,16 +15,8 @@ const NAV_LINKS = [
 
 export function FloatingNav() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-
-  // Background blur when scrolled
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Intersection Observer for Active Section
   useEffect(() => {
@@ -101,7 +93,7 @@ export function FloatingNav() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="fixed top-0 inset-x-0 z-50 px-4 pt-4 pb-4 pointer-events-none"
       >
-        <div className={`max-w-5xl mx-auto flex items-center justify-between rounded-[24px] px-5 py-3 transition-all duration-500 border ${scrolled ? 'bg-black/70 backdrop-blur-2xl border-white/10 shadow-lg shadow-black/50' : 'bg-transparent backdrop-blur-none border-transparent shadow-none'} pointer-events-auto`}>
+        <div className="max-w-5xl mx-auto flex items-center justify-between rounded-[24px] px-5 py-3 transition-all duration-500 border bg-black/70 backdrop-blur-2xl border-white/10 shadow-lg shadow-black/50 pointer-events-auto">
           
           <a 
             href="#hero" 
@@ -177,9 +169,8 @@ export function FloatingNav() {
           <motion.div
             ref={mobileMenuRef}
             initial={{ opacity: 0, y: "-100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
+            exit={{ opacity: 0, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } }}
             className="fixed inset-0 z-40 bg-black/95 backdrop-blur-3xl md:hidden flex flex-col pt-32 px-6 pb-8 border-b border-white/10"
             role="dialog"
             aria-modal="true"
