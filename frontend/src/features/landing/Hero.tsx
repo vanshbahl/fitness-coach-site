@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router";
-import { ArrowRight, ChevronDown, Clock, Activity, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Clock, Activity, CheckCircle2 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.png";
 
 export function Hero() {
@@ -8,12 +8,13 @@ export function Hero() {
 
   // Optimized for cinematic feel without excessive movement
   const FADE_UP_VARIANTS = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 10 },
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
   };
 
   return (
     <section 
+      id="hero"
       className="relative min-h-[100dvh] w-full flex flex-col justify-end overflow-hidden bg-black selection:bg-white selection:text-black"
       aria-label="Hero section"
     >
@@ -22,14 +23,21 @@ export function Hero() {
       <div className="absolute inset-0 z-0 bg-black">
         <img 
           src={heroBg} 
-          alt="" // Decorative background
-          className="w-full h-full object-cover object-[60%_center] md:object-center opacity-70"
+          alt="" 
+          className="w-full h-full object-cover object-[60%_center] md:object-center opacity-80"
           // @ts-ignore
           fetchPriority="high"
         />
-        {/* Cinematic Vignette - Darkens edges and bottom for text, keeps subject bright */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-black/80 via-black/10 to-transparent" />
+        {/* Subtle Vignette - darkens edges without blurring */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 pointer-events-none" />
+        
+        {/* Extremely subtle ambient orange glow */}
+        <motion.div
+          animate={{ opacity: [0.04, 0.08, 0.04] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] sm:w-[50vw] sm:h-[50vw] bg-orange-500 rounded-full blur-[150px] mix-blend-screen pointer-events-none"
+        />
       </div>
 
       {/* 5. Hero Composition - Max width constraints and balanced typography */}
@@ -51,8 +59,8 @@ export function Hero() {
           className="max-w-2xl w-full"
         >
           {/* Eyebrow */}
-          <motion.div variants={FADE_UP_VARIANTS} className="flex items-center gap-3 mb-6">
-            <span className="w-8 h-[1px] bg-white/50 rounded-full"></span>
+          <motion.div variants={FADE_UP_VARIANTS} className="flex items-center gap-3 mb-6 mt-16 sm:mt-0">
+            <span className="w-8 h-[2px] bg-orange-500 rounded-full"></span>
             <p className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-zinc-300 uppercase">
               Elite Calisthenics Coaching
             </p>
@@ -78,11 +86,11 @@ export function Hero() {
           <motion.div variants={FADE_UP_VARIANTS} className="flex flex-col gap-6 mb-12">
             <Link 
               to="/assessment"
-              className="h-14 px-8 flex items-center justify-center text-base sm:text-lg font-semibold rounded-xl group w-full sm:w-auto self-start bg-white text-black hover:bg-zinc-200 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+              className="h-14 px-8 flex items-center justify-center text-base sm:text-lg font-semibold rounded-xl group w-full sm:w-auto self-start bg-white text-black hover:-translate-y-0.5 hover:scale-[1.02] shadow-[0_4px_20px_rgba(249,115,22,0.12)] hover:shadow-[0_8px_30px_rgba(249,115,22,0.22)] transition-all duration-250 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               aria-label="Start your assessment"
             >
               Start Your Assessment
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             
             {/* 7. Metadata Chips - Linear style, elegant typography, high contrast text */}
@@ -119,22 +127,6 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Subtle Scroll Indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 1 }}
-        className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 flex flex-col items-center gap-2"
-        aria-hidden="true"
-      >
-        <motion.div
-          animate={shouldReduceMotion ? {} : { y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-10 h-10 rounded-full border border-white/10 bg-black/40 backdrop-blur-md flex items-center justify-center text-zinc-400"
-        >
-          <ChevronDown className="w-4 h-4" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }

@@ -1,31 +1,49 @@
 # Frontend Architecture
 
-## High-Level Architecture
-Quick Strength follows a decoupled, modern web architecture pattern comprising a statically hosted Single Page Application (SPA) designed as an onboarding wizard.
+## Folder Structure
 
-## Structure & Tech Stack
-- **Framework**: React 19 with Vite.
-- **State Management**: 
-  - **Local State**: Context API or React Hook Form to maintain wizard state.
-  - **Form Validation**: React Hook Form paired with Zod.
-  - **Server State**: TanStack React Query (`useQuery`, `useMutation`) for data fetching, caching, and mutations.
-  - **API Layer**: Axios intercepts and normalizes responses (`src/api/client.ts`). React Query hooks communicate with a dedicated Service Layer (`src/services/`), which encapsulates HTTP calls and DTO mappings.
-- **Styling**: Tailwind CSS v4 + shadcn/ui. Heavily customized for a premium, minimal aesthetic. 
-- **Animations**: Framer Motion handles step transitions, micro-interactions, progress bar fills, shared layout animations (`layoutId`), and the final celebration screens.
+The Quick Strength frontend follows a domain-driven, feature-based architecture. This ensures high cohesion and scalability as the application grows.
 
-## Implemented Features (Phase 1-3)
-The frontend currently encompasses the entire onboarding and booking journey:
-- **Hero**: Premium dark aesthetics and glassmorphism.
-- **Assessment Wizard V1 (Completed)**: Advanced validations, semantic progress indication, persistent application chrome, and dynamic state.
-- **Persistent Footer Architecture**: Mobile-first safe-area aware bottom bar that morphs seamlessly into a loading state without remounting.
-- **Motion System**: Robust shared layout animations providing visual continuity across routes.
-- **Payment Flow (Frontend)**: Mocked payment preview and seamless transition screens.
-- **Booking Status Dashboard**: Dynamic UI rendering pending/scheduled states.
-- **Slot Booking**: Specialized UI for calendar date and time slot selection.
+```text
+src/
+├── api/                  # API client configuration and interceptors (Axios)
+├── assets/               # Static media, icons, and placeholder images
+├── components/           # Shared UI elements (buttons, inputs, layout wrappers)
+├── features/             # Feature-based domains
+│   ├── admin/            # (Future) Dashboard views
+│   ├── booking/          # Assessment Wizard, Slot Picker, Mock Checkout
+│   └── landing/          # Hero, Philosophy, Results, CTA sections
+├── hooks/                # Custom React hooks
+├── lib/                  # Utilities (Tailwind merge `cn`, formatting)
+├── pages/                # Page-level components routing the features
+└── styles/               # Global CSS (`index.css` with Tailwind v4 variables)
+```
 
-## Backend Connectivity (Phase 3)
-- **Real Data**: The Assessment Wizard successfully creates bookings using `POST /api/v1/bookings` (Axios). The Booking Status page dynamically retrieves that booking via `GET /api/v1/bookings/{id}` directly from the local SQLite/FastAPI database.
-- **Remaining Mocked Endpoints**: The Service Layer temporarily handles mocks for features not yet built on the backend. This includes Available Slots retrieval, Slot Scheduling (`POST /schedule`), Payment Gateway processing, Google Calendar integration, and automated emails.
+## Component Hierarchy
 
-## Deployment Architecture
-- **Frontend**: Deployed on **Vercel**. Provides edge caching and instant PR previews.
+- **App Root (`main.tsx`)**: Injects React Query Provider, React Router, and global error boundaries.
+- **Pages**:
+  - `LandingPage`: Composes the marketing funnel (`Hero` → `WhyCalisthenics` → `MeetYourCoach` → `Results` → `FinalCTA`).
+  - `BookingPage`: Wraps the multi-step `AssessmentWizard` and nested routing for checkout flow.
+- **Features**: Highly encapsulated logic. For example, `src/features/landing/components/Results.tsx` owns its local state (the active athlete index) and handles its own layout, without relying on global state management.
+
+## Animation Philosophy
+
+The frontend architecture prioritizes **Zero Layout Shift (ZLS)**. 
+Animations are used to enhance the premium feel, not distract the user. We heavily rely on Framer Motion.
+
+- **Entrance**: Soft fade-ups (`y: 24, opacity: 0` to `y: 0, opacity: 1`) bound to scroll viewport intersections.
+- **State Changes**: When data changes (e.g., slider index), we prefer native React key-swapping or opacity crossfading over heavy sliding translations to preserve 60fps performance on mobile.
+- **Safe Area Considerations**: Footers and floating elements respect `safe-area-inset-bottom` for iOS devices.
+
+## Responsive Strategy
+
+1. **Mobile-First**: The UI is designed primarily for vertical viewports (`375px - 430px`), given that >90% of traffic originates from Instagram.
+2. **Thumb Reachability**: Primary actions (e.g., CTA buttons, Slider arrows on mobile) are placed in the bottom 30% of the screen.
+3. **Desktop Scaling**: Elements don't just stretch on desktop; they reorient. For example, the `Results` component switches from a vertical stack to a side-by-side Hero Image and Navigation control layout.
+
+## Design Principles
+
+- **Editorial & Minimal**: Emulate the aesthetic of Apple, Linear, and Stripe.
+- **Typography Driven**: Hierarchy is achieved through font weight, tracking, and contrast rather than borders or heavy background boxes.
+- **Black Canvas**: The background is heavily weighted in `zinc-950` and `black`, using a stark `orange-500` strictly for primary calls to action or micro-accents.

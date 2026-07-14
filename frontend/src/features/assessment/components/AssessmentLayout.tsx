@@ -46,7 +46,7 @@ export function AssessmentLayout({
   };
 
   return (
-    <div className="min-h-[100dvh] bg-black text-white selection:bg-white selection:text-black flex flex-col overflow-hidden relative">
+    <motion.div className="min-h-[100dvh] bg-black text-white selection:bg-white selection:text-black flex flex-col overflow-hidden relative">
 
       {/* Premium Ambient Background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
@@ -213,6 +213,6 @@ export function AssessmentLayout({
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
