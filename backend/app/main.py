@@ -31,14 +31,25 @@ app = FastAPI(
 )
 
 # Set up CORS middleware
+# Combine settings origins with required production/local origins
+origins = [
+    "https://quick-strength-by-vector.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:8000"
+]
+
 if settings.BACKEND_CORS_ORIGINS:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    origins.extend([str(origin) for origin in settings.BACKEND_CORS_ORIGINS])
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=list(set(origins)),
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 from fastapi.responses import JSONResponse
 from fastapi import status
