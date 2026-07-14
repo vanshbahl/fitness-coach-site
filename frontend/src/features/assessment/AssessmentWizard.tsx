@@ -7,6 +7,7 @@ import { useCreateBooking } from "../../hooks/api/booking";
 // Steps
 import { WelcomeScreen } from "./steps/WelcomeScreen";
 import { Step1Demographics } from "./steps/Step1Demographics";
+import { Step1bTrainingLevel } from "./steps/Step1bTrainingLevel";
 import { Step2Goals } from "./steps/Step2Goals";
 import { Step3Equipment } from "./steps/Step3Equipment";
 import { Step4Availability } from "./steps/Step4Availability";
@@ -21,7 +22,7 @@ export function AssessmentWizard() {
   const navigate = useNavigate();
 
   const [currentStep, setCurrentStep] = useState(() => {
-    return location.state?.returnToReview ? 9 : 0;
+    return location.state?.returnToReview ? 10 : 0;
   });
   const [hasUnlockedReview, setHasUnlockedReview] = useState(() => {
     return location.state?.returnToReview ? true : false;
@@ -41,7 +42,7 @@ export function AssessmentWizard() {
 
   // Unlock review step for production navigation improvement
   useEffect(() => {
-    if (currentStep === 9 && !hasUnlockedReview) {
+    if (currentStep === 10 && !hasUnlockedReview) {
       setHasUnlockedReview(true);
     }
   }, [currentStep, hasUnlockedReview]);
@@ -64,10 +65,11 @@ export function AssessmentWizard() {
       whatsapp: "+919876543210",
       instagram: "testuser",
       city: "Test City",
-      preferredDuration: "3 Months"
+      preferredDuration: "3 Months",
+      trainingLevel: "Intermediate"
     });
     setDirection(1);
-    setCurrentStep(9);
+    setCurrentStep(10);
     setHasUnlockedReview(true);
   };
 
@@ -81,11 +83,12 @@ export function AssessmentWizard() {
   const isStepValid = () => {
     switch (currentStep) {
       case 1: return !!data.age && !!data.gender && data.previousExperience !== undefined;
-      case 2: return data.goals && data.goals.length > 0;
-      case 3: return data.equipment && data.equipment.length > 0;
-      case 4: return data.preferredDays && data.preferredDays.length > 0 && data.preferredTime && data.preferredTime.length > 0;
-      case 7: return (data.name?.trim()?.length || 0) >= 2 && (data.whatsapp?.trim()?.length || 0) >= 5 && (data.city?.trim()?.length || 0) >= 2;
-      case 8: return !!data.preferredDuration;
+      case 2: return !!data.trainingLevel;
+      case 3: return data.goals && data.goals.length > 0;
+      case 4: return data.equipment && data.equipment.length > 0;
+      case 5: return data.preferredDays && data.preferredDays.length > 0 && data.preferredTime && data.preferredTime.length > 0;
+      case 8: return (data.name?.trim()?.length || 0) >= 2 && (data.whatsapp?.trim()?.length || 0) >= 5 && (data.city?.trim()?.length || 0) >= 2;
+      case 9: return !!data.preferredDuration;
       default: return true;
     }
   };
@@ -96,13 +99,14 @@ export function AssessmentWizard() {
     let fieldsToValidate: any[] = [];
     switch (currentStep) {
       case 1: fieldsToValidate = ["age", "gender", "previousExperience"]; break;
-      case 2: fieldsToValidate = ["goals"]; break;
-      case 3: fieldsToValidate = ["equipment"]; break;
-      case 4: fieldsToValidate = ["preferredDays", "preferredTime"]; break;
-      case 5: fieldsToValidate = ["heightCm", "weightKg"]; break;
-      case 6: fieldsToValidate = ["currentRoutine", "injuries"]; break;
-      case 7: fieldsToValidate = ["name", "whatsapp", "instagram", "city"]; break;
-      case 8: fieldsToValidate = ["preferredDuration"]; break;
+      case 2: fieldsToValidate = ["trainingLevel"]; break;
+      case 3: fieldsToValidate = ["goals"]; break;
+      case 4: fieldsToValidate = ["equipment"]; break;
+      case 5: fieldsToValidate = ["preferredDays", "preferredTime"]; break;
+      case 6: fieldsToValidate = ["heightCm", "weightKg"]; break;
+      case 7: fieldsToValidate = ["currentRoutine", "injuries"]; break;
+      case 8: fieldsToValidate = ["name", "whatsapp", "instagram", "city"]; break;
+      case 9: fieldsToValidate = ["preferredDuration"]; break;
     }
 
     if (fieldsToValidate.length > 0) {
@@ -110,7 +114,7 @@ export function AssessmentWizard() {
       if (!isValid) return;
     }
 
-    if (currentStep === 9) {
+    if (currentStep === 10) {
       setIsSaving(true);
       try {
         const result = await createBookingMutation.mutateAsync(data);
@@ -128,13 +132,13 @@ export function AssessmentWizard() {
     setIsSaving(true);
     setTimeout(() => {
       setDirection(1);
-      if (hasUnlockedReview && currentStep < 9) {
-        setCurrentStep(9);
+      if (hasUnlockedReview && currentStep < 10) {
+        setCurrentStep(10);
       } else {
-        setCurrentStep(prev => Math.min(prev + 1, 9));
+        setCurrentStep(prev => Math.min(prev + 1, 10));
       }
       setIsSaving(false);
-    }, 400); // allow morph animation to finish
+    }, 300); // allow morph animation to finish
   };
 
   const handleBack = () => {
@@ -159,14 +163,15 @@ export function AssessmentWizard() {
       >
         {currentStep === 0 && <WelcomeScreen />}
         {currentStep === 1 && <Step1Demographics />}
-        {currentStep === 2 && <Step2Goals />}
-        {currentStep === 3 && <Step3Equipment />}
-        {currentStep === 4 && <Step4Availability />}
-        {currentStep === 5 && <Step5Metrics />}
-        {currentStep === 6 && <Step6Medical />}
-        {currentStep === 7 && <Step7Contact />}
-        {currentStep === 8 && <Step8Commitment />}
-        {currentStep === 9 && <Step9Review onEditStep={setCurrentStep} />}
+        {currentStep === 2 && <Step1bTrainingLevel />}
+        {currentStep === 3 && <Step2Goals />}
+        {currentStep === 4 && <Step3Equipment />}
+        {currentStep === 5 && <Step4Availability />}
+        {currentStep === 6 && <Step5Metrics />}
+        {currentStep === 7 && <Step6Medical />}
+        {currentStep === 8 && <Step7Contact />}
+        {currentStep === 9 && <Step8Commitment />}
+        {currentStep === 10 && <Step9Review onEditStep={setCurrentStep} />}
       </AssessmentLayout>
     </FormProvider>
   );

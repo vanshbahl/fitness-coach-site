@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import List, Optional
 from datetime import datetime
 from uuid import UUID
-from app.models.enums import Gender, FitnessLevel, CoachingDuration, BookingStatus, TrialOutcome
+from app.models.enums import Gender, FitnessLevel, TrainingLevel, CoachingDuration, BookingStatus, TrialOutcome
 
 class BookingBase(BaseModel):
     # Personal Info
@@ -19,6 +19,7 @@ class BookingBase(BaseModel):
     
     # Fitness Profile
     fitness_level: FitnessLevel
+    training_level: TrainingLevel
     previous_experience: bool
     injuries: Optional[str] = Field(None, max_length=500)
     current_routine: Optional[str] = Field(None, max_length=1000)
@@ -63,6 +64,7 @@ class BookingCreate(BookingBase):
                 "height_cm": 175,
                 "weight_kg": 74.5,
                 "fitness_level": "intermediate",
+                "training_level": "Intermediate",
                 "previous_experience": True,
                 "injuries": "None",
                 "current_routine": "Gym 4x a week",

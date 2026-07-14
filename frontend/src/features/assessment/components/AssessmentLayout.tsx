@@ -33,7 +33,7 @@ export function AssessmentLayout({
   const [showLeaveModal, setShowLeaveModal] = useState(false);
 
   const handleHomeClick = () => {
-    if (currentStep > 0 && currentStep < 9) {
+    if (currentStep > 0 && currentStep < 10) {
       setShowLeaveModal(true);
     } else {
       navigate("/");
@@ -92,7 +92,7 @@ export function AssessmentLayout({
           </button>
 
           <div className="pointer-events-auto flex items-center gap-2">
-            {import.meta.env.DEV && onDevSkip && currentStep < 9 && (
+            {import.meta.env.DEV && onDevSkip && currentStep < 10 && (
               <button
                 onClick={onDevSkip}
                 className="flex items-center gap-1.5 h-8 px-3 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider hover:bg-emerald-500/20 transition-colors border border-emerald-500/20"
@@ -109,7 +109,7 @@ export function AssessmentLayout({
 
       <main className="flex-1 w-full flex flex-col relative z-10 h-[100dvh] overflow-y-auto overflow-x-hidden scrollbar-hide">
         <div className="w-full max-w-2xl mx-auto px-6 sm:px-8 pt-20 pb-4">
-          <ProgressStepper currentStep={currentStep} totalSteps={10} />
+          <ProgressStepper currentStep={currentStep} totalSteps={11} />
         </div>
 
         <AnimatePresence mode="wait" initial={false} custom={direction}>
@@ -138,7 +138,7 @@ export function AssessmentLayout({
           onNext={onNext}
           onBack={onBack}
           disabled={!isValid || isSaving}
-          label={currentStep === 0 ? "Begin Assessment" : currentStep === 9 ? "Continue to Payment" : hasUnlockedReview ? "Save & Return" : "Continue"}
+          label={currentStep === 0 ? "Begin Assessment" : currentStep === 10 ? "Review Session" : hasUnlockedReview ? "Save & Return" : "Continue"}
           savingLabel={currentStep === 0 ? "Welcome" : "Saved"}
           isSaving={isSaving}
         />

@@ -5,11 +5,7 @@ import { SegmentedControl } from "../components/SegmentedControl";
 import { OptionCard } from "../components/OptionCard";
 import { AssessmentFormData } from "../schema";
 
-interface Step1Props {
-  
-}
-
-export function Step1Demographics({ }: Step1Props) {
+export function Step1Demographics() {
   const { watch, setValue } = useFormContext<AssessmentFormData>();
   const age = watch("age");
   const gender = watch("gender");
@@ -38,7 +34,7 @@ export function Step1Demographics({ }: Step1Props) {
 
           {/* Gender Section */}
           <div className="space-y-6">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 text-center">Biological Gender</h3>
+            <h3 className="text-sm font-bold uppercase tracking-widest text-zinc-500 text-center">Gender</h3>
             <SegmentedControl 
               options={["Male", "Female", "Other"]}
               value={gender}

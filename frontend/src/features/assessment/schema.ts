@@ -5,6 +5,7 @@ export const assessmentSchema = z.object({
   age: z.number().min(16).max(100).optional(),
   gender: z.enum(["Male", "Female", "Other"]).optional(),
   previousExperience: z.boolean().optional(),
+  trainingLevel: z.enum(["Complete Beginner", "Basic Beginner", "Advanced Beginner", "Intermediate", "Advanced"]).optional(),
 
   // Step 2: Goals
   goals: z.array(z.string()).min(1, "Please select at least one goal").default([]),
@@ -41,6 +42,7 @@ export const defaultAssessmentValues: Partial<AssessmentFormData> = {
   age: 25, // default starting point for wheel picker
   heightCm: 175,
   weightKg: 75,
+  trainingLevel: undefined,
   goals: [],
   equipment: [],
   preferredDays: [],

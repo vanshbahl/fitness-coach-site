@@ -8,6 +8,10 @@ interface BookingHeroProps {
 }
 
 export function BookingHero({ coach, duration, timezone }: BookingHeroProps) {
+  const displayCoach = coach || "Abhay Pandey";
+  const displayDuration = duration || "35 Minutes";
+  const displayTimezone = timezone || "IST (UTC +05:30)";
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -20,7 +24,7 @@ export function BookingHero({ coach, duration, timezone }: BookingHeroProps) {
           Choose Your Trial Session
         </h1>
         <p className="text-zinc-400 text-lg leading-relaxed max-w-lg">
-          Your assessment is complete. Select a convenient time for your live 1-on-1 trial session with {coach}.
+          Your assessment is complete. Select a convenient time for your live 1-on-1 trial session with <b>{displayCoach}</b>.
         </p>
       </div>
 
@@ -31,11 +35,11 @@ export function BookingHero({ coach, duration, timezone }: BookingHeroProps) {
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
           <Clock className="w-4 h-4 text-orange-400" />
-          <span className="text-sm font-medium text-zinc-300">{duration}</span>
+          <span className="text-sm font-medium text-zinc-300">{displayDuration}</span>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
           <Globe className="w-4 h-4 text-blue-400" />
-          <span className="text-sm font-medium text-zinc-300">{timezone}</span>
+          <span className="text-sm font-medium text-zinc-300">{displayTimezone}</span>
         </div>
       </div>
     </motion.div>

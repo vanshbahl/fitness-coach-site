@@ -4,10 +4,6 @@ import { StepLayout } from "../components/StepLayout";
 import { OptionCard } from "../components/OptionCard";
 import { AssessmentFormData } from "../schema";
 
-interface Step8Props {
-  
-  
-}
 
 const DURATION_OPTIONS = [
   { id: "1 Month", title: "1 Month", description: "Jumpstart your progress", icon: Zap },
@@ -16,7 +12,7 @@ const DURATION_OPTIONS = [
   { id: "Long Term", title: "Long Term", description: "Ongoing elite performance", icon: CheckCircle },
 ];
 
-export function Step8Commitment({  }: Step8Props) {
+export function Step8Commitment() {
   const { watch, setValue } = useFormContext<AssessmentFormData>();
   const duration = watch("preferredDuration");
 

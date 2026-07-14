@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 
 interface FloatingNextButtonProps {
   onNext: () => void;
@@ -68,7 +68,7 @@ export function FloatingNextButton({ onNext, onBack, disabled = false, label = "
                 transition={{ duration: 0.2 }}
                 className="flex items-center gap-2 relative z-10"
               >
-                <Check className="w-5 h-5" />
+                <Loader2 className="w-5 h-5 animate-spin" />
                 <span>{savingLabel}</span>
               </motion.div>
             ) : (

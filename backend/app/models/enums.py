@@ -11,6 +11,13 @@ class FitnessLevel(str, enum.Enum):
     intermediate = "intermediate"
     advanced = "advanced"
 
+class TrainingLevel(str, enum.Enum):
+    complete_beginner = "Complete Beginner"
+    basic_beginner = "Basic Beginner"
+    advanced_beginner = "Advanced Beginner"
+    intermediate = "Intermediate"
+    advanced = "Advanced"
+
 class CoachingDuration(str, enum.Enum):
     one_month = "1_month"
     three_months = "3_months"

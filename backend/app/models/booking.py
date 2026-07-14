@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 import uuid
 from datetime import datetime
-from app.models.enums import Gender, FitnessLevel, CoachingDuration, BookingStatus, TrialOutcome
+from app.models.enums import Gender, FitnessLevel, TrainingLevel, CoachingDuration, BookingStatus, TrialOutcome
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -29,6 +29,7 @@ class Booking(Base):
     
     # Fitness Profile
     fitness_level: Mapped[FitnessLevel] = mapped_column(SQLEnum(FitnessLevel), nullable=False)
+    training_level: Mapped[TrainingLevel] = mapped_column(SQLEnum(TrainingLevel), nullable=False, server_default="Complete Beginner")
     previous_experience: Mapped[bool] = mapped_column(Boolean, nullable=False)
     injuries: Mapped[str | None] = mapped_column(Text, nullable=True)
     current_routine: Mapped[str | None] = mapped_column(Text, nullable=True)

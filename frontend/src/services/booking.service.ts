@@ -12,10 +12,35 @@ const durationMap: Record<string, string> = {
 // Extract fitness level from experience
 const getFitnessLevel = (hasExperience?: boolean) => hasExperience ? "intermediate" : "beginner";
 
+// Demo Mode: Mock backend responses during development to prevent DB pollution
+const isDemoMode = import.meta.env.DEV && localStorage.getItem('demo_mode') !== 'false';
+
+const generateDemoBooking = (id: string): BookingResponse => ({
+  id,
+  status: BookingStatus.PENDING,
+  coach: "Abhay Pandey",
+  selectedDate: null,
+  selectedTime: null,
+  duration: "35 Minutes",
+  timezone: "Asia/Kolkata",
+  googleMeetUrl: null,
+  calendarInviteSent: false,
+  confirmationEmailSent: false,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+});
+
 /**
  * Creates a new booking from the assessment payload
  */
 export const createBooking = async (payload: CreateBookingPayload): Promise<BookingResponse> => {
+  if (isDemoMode) {
+    console.log("🛠️ DEMO MODE: Mocking booking creation (Backend bypassed)");
+    return new Promise(resolve => setTimeout(() => {
+      resolve(generateDemoBooking(`demo_${Math.random().toString(36).substring(7)}`));
+    }, 800));
+  }
+
   // Map frontend payload to exactly match backend BookingCreate schema
   const backendPayload = {
     name: payload.name || "Anonymous",
@@ -27,6 +52,7 @@ export const createBooking = async (payload: CreateBookingPayload): Promise<Book
     height_cm: payload.heightCm || 175,
     weight_kg: payload.weightKg || 75.0,
     fitness_level: getFitnessLevel(payload.previousExperience),
+    training_level: payload.trainingLevel || "Basic Beginner",
     previous_experience: payload.previousExperience || false,
     injuries: payload.injuries || "None",
     current_routine: payload.currentRoutine || "None",
@@ -51,6 +77,12 @@ export const createBooking = async (payload: CreateBookingPayload): Promise<Book
  * Gets a booking by ID
  */
 export const getBooking = async (bookingId: string): Promise<BookingResponse> => {
+  if (isDemoMode && bookingId.startsWith("demo_")) {
+    return new Promise(resolve => setTimeout(() => {
+      resolve(generateDemoBooking(bookingId));
+    }, 400));
+  }
+
   const response = await apiClient.get<any>(`/bookings/${bookingId}`);
   return response.data.data;
 };
@@ -59,6 +91,22 @@ export const getBooking = async (bookingId: string): Promise<BookingResponse> =>
  * Schedules a slot for a specific booking
  */
 export const scheduleSlot = async (bookingId: string, payload: ScheduleSlotPayload): Promise<BookingResponse> => {
+  if (isDemoMode && bookingId.startsWith("demo_")) {
+    const booking = await getBooking(bookingId);
+    return new Promise(resolve => setTimeout(() => {
+      resolve({
+        ...booking,
+        status: BookingStatus.SCHEDULED,
+        selectedDate: payload.date,
+        selectedTime: payload.time,
+        googleMeetUrl: "meet.google.com/demo-url-xyz",
+        calendarInviteSent: true,
+        confirmationEmailSent: true,
+        updatedAt: new Date().toISOString(),
+      });
+    }, 1000));
+  }
+
   // TODO: Replace with real API call
   // return (await apiClient.post<any>(`/bookings/${bookingId}/schedule`, payload)).data.data;
   

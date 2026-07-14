@@ -69,9 +69,10 @@ export function WeeklyCalendar({ selectedDate, onSelectDate, availableSlots = []
       {/* Horizontal Scroll Container */}
       <div 
         ref={scrollRef}
-        className="flex overflow-x-auto gap-3 pb-4 -mx-6 px-6 sm:mx-0 sm:px-0 scrollbar-hide snap-x"
+        className="-mx-6 sm:mx-0 overflow-x-auto scrollbar-hide snap-x scroll-px-6 sm:scroll-px-0 pb-4"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
+        <div className="flex gap-3 px-6 sm:px-0 w-max after:content-[''] after:w-px after:shrink-0 sm:after:hidden">
         {displayDays.map((day) => {
           const isSelected = selectedDate === day.id;
           
@@ -107,6 +108,7 @@ export function WeeklyCalendar({ selectedDate, onSelectDate, availableSlots = []
             </button>
           );
         })}
+        </div>
       </div>
     </motion.div>
   );

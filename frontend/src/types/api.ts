@@ -36,6 +36,8 @@ export interface CreateBookingPayload {
   preferredTime?: string[];
   heightCm?: number;
   weightKg?: number;
+  previousExperience?: boolean;
+  trainingLevel?: string;
   currentRoutine?: string;
   injuries?: string;
   name?: string;
@@ -43,7 +45,6 @@ export interface CreateBookingPayload {
   instagram?: string;
   city?: string;
   preferredDuration?: string;
-  previousExperience?: boolean;
 }
 
 export interface ScheduleSlotPayload {
