@@ -44,24 +44,9 @@ export function FloatingConfirmButton({ onConfirm, disabled }: FloatingConfirmBu
     <>
       <div className="fixed bottom-[env(safe-area-inset-bottom,0px)] left-0 right-0 p-4 sm:p-6 z-40 pointer-events-none">
         <div className="max-w-2xl mx-auto flex items-center justify-between pointer-events-auto">
-          <AnimatePresence mode="popLayout">
-            {!isConfirming && (
-              <motion.button
-                key="back-button"
-                onClick={() => window.history.back()}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="h-14 sm:h-16 px-6 sm:px-8 rounded-2xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              >
-                Back
-              </motion.button>
-            )}
-          </AnimatePresence>
-
           <motion.div 
             layout
-            className={`relative flex items-center ${isConfirming ? "w-full" : "ml-4 flex-1"}`}
+            className="relative flex items-center w-full"
           >
             <motion.button
               layout
@@ -98,7 +83,7 @@ export function FloatingConfirmButton({ onConfirm, disabled }: FloatingConfirmBu
                     exit={{ opacity: 0 }}
                     className="flex items-center"
                   >
-                    Confirm Session
+                    Confirm Trial Session
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </motion.div>
                 )}

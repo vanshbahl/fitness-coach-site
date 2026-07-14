@@ -112,3 +112,7 @@ logs/
 
 # Generated reports
 coverage-report/
+
+
+.agents/rules/
+

@@ -23,7 +23,7 @@ export function FloatingNextButton({ onNext, onBack, disabled = false, label = "
               exit={{ opacity: 0, scale: 0.8, width: 0, marginRight: 0 }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
               onClick={onBack}
-              className="h-14 rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] flex flex-shrink-0 items-center justify-center text-white overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="h-14 rounded-[16px] bg-black/20 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex flex-shrink-0 items-center justify-center text-white overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white hover:bg-black/40 transition-colors"
               aria-label="Go back"
             >
               <div className="flex items-center justify-center min-w-[56px]">

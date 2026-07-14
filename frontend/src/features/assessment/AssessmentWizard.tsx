@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FormProvider } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAssessmentForm } from "./useAssessmentForm";
 import { AssessmentLayout } from "./components/AssessmentLayout";
 import { useCreateBooking } from "../../hooks/api/booking";
@@ -17,13 +17,59 @@ import { Step8Commitment } from "./steps/Step8Commitment";
 import { Step9Review } from "./steps/Step9Review";
 
 export function AssessmentWizard() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const form = useAssessmentForm();
+  const location = useLocation();
   const navigate = useNavigate();
 
+  const [currentStep, setCurrentStep] = useState(() => {
+    return location.state?.returnToReview ? 9 : 0;
+  });
+  const [hasUnlockedReview, setHasUnlockedReview] = useState(() => {
+    return location.state?.returnToReview ? true : false;
+  });
+
+  const form = useAssessmentForm();
   const [direction, setDirection] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
   const createBookingMutation = useCreateBooking();
+
+  // Clear location state on mount to prevent sticky returnToReview on refresh
+  useEffect(() => {
+    if (location.state?.returnToReview) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
+
+  // Unlock review step for production navigation improvement
+  useEffect(() => {
+    if (currentStep === 9 && !hasUnlockedReview) {
+      setHasUnlockedReview(true);
+    }
+  }, [currentStep, hasUnlockedReview]);
+
+  // Developer shortcut to bypass onboarding UI testing
+  const handleDevSkip = () => {
+    form.reset({
+      age: 28,
+      gender: "Male",
+      previousExperience: true,
+      goals: ["Build Muscle", "Increase Strength"],
+      equipment: ["Dumbbells", "Pull-up Bar"],
+      preferredDays: ["Monday", "Wednesday", "Friday"],
+      preferredTime: ["Morning"],
+      heightCm: 180,
+      weightKg: 75,
+      currentRoutine: "Basic pushups and pullups",
+      injuries: "None",
+      name: "Test User",
+      whatsapp: "+919876543210",
+      instagram: "testuser",
+      city: "Test City",
+      preferredDuration: "3 Months"
+    });
+    setDirection(1);
+    setCurrentStep(9);
+    setHasUnlockedReview(true);
+  };
 
   // Scroll to top on step change
   useEffect(() => {
@@ -82,7 +128,11 @@ export function AssessmentWizard() {
     setIsSaving(true);
     setTimeout(() => {
       setDirection(1);
-      setCurrentStep(prev => Math.min(prev + 1, 9));
+      if (hasUnlockedReview && currentStep < 9) {
+        setCurrentStep(9);
+      } else {
+        setCurrentStep(prev => Math.min(prev + 1, 9));
+      }
       setIsSaving(false);
     }, 400); // allow morph animation to finish
   };
@@ -104,6 +154,8 @@ export function AssessmentWizard() {
         isValid={isStepValid()}
         onNext={handleNext}
         onBack={currentStep > 0 ? handleBack : undefined}
+        hasUnlockedReview={hasUnlockedReview}
+        onDevSkip={handleDevSkip}
       >
         {currentStep === 0 && <WelcomeScreen />}
         {currentStep === 1 && <Step1Demographics />}

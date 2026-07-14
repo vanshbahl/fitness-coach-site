@@ -58,8 +58,31 @@ export default function PaymentPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Secure Your Session</h1>
-          <p className="text-zinc-400 text-lg">You're one step away from starting your journey.</p>
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Assessment Complete.</h1>
+          <p className="text-zinc-400 text-lg">Review your trial details before securing your session.</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8"
+        >
+          <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4">Trial Summary</h3>
+          <p className="text-zinc-300 mb-6 leading-relaxed">
+            A comprehensive 1-on-1 assessment to analyze your current fitness level, understand your goals, and outline a tailored roadmap for your strength journey.
+          </p>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-black/50 rounded-2xl p-4 border border-white/5">
+              <span className="text-zinc-500 text-xs font-bold uppercase tracking-widest block mb-1">Coach</span>
+              <span className="text-white font-medium">Abhay Pandey</span>
+            </div>
+            <div className="bg-black/50 rounded-2xl p-4 border border-white/5">
+              <span className="text-zinc-500 text-xs font-bold uppercase tracking-widest block mb-1">Duration</span>
+              <span className="text-white font-medium">45 Minutes</span>
+            </div>
+          </div>
         </motion.div>
 
         <motion.div
@@ -70,7 +93,7 @@ export default function PaymentPage() {
         >
           <div className="absolute top-0 right-0 p-6">
             <div className="bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-              One-Time
+              Trial Fee
             </div>
           </div>
           
@@ -123,26 +146,37 @@ export default function PaymentPage() {
 
       {/* Floating CTA */}
       <div className="fixed bottom-[env(safe-area-inset-bottom,0px)] left-0 right-0 p-4 sm:p-6 z-40 pointer-events-none">
-        <motion.div className="max-w-md mx-auto relative pointer-events-auto">
-          <button
-            onClick={handlePayment}
-            disabled={isProcessing}
-            className="w-full h-14 sm:h-16 rounded-2xl bg-white text-black font-bold text-base sm:text-lg flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-80 disabled:pointer-events-none"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Processing Payment...
-              </>
-            ) : (
-              <>
-                <ShieldCheck className="w-5 h-5 mr-2" />
-                Continue to Secure Payment
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </>
-            )}
-          </button>
-        </motion.div>
+        <div className="max-w-2xl mx-auto flex items-center justify-between pointer-events-auto">
+          {!isProcessing && (
+            <button
+              onClick={() => navigate("/assessment", { state: { returnToReview: true } })}
+              className="h-14 sm:h-16 px-6 sm:px-8 rounded-[16px] bg-black/20 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] text-white font-medium hover:bg-black/40 transition-colors active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white flex-shrink-0"
+            >
+              Back
+            </button>
+          )}
+          
+          <div className={`relative flex items-center ${isProcessing ? "w-full" : "ml-4 flex-1"}`}>
+            <button
+              onClick={handlePayment}
+              disabled={isProcessing}
+              className={`w-full h-14 sm:h-16 rounded-2xl bg-white text-black font-bold text-base sm:text-lg flex items-center justify-center hover:bg-zinc-200 transition-colors active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white disabled:opacity-80 disabled:pointer-events-none`}
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  Connecting to Secure Gateway...
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="w-5 h-5 mr-2" />
+                  Continue to Secure Payment
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Bottom Scroll Blur */}

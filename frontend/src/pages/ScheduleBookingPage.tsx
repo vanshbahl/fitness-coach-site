@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
-import { Home } from "lucide-react";
-import { Link } from "react-router";
+
 
 import { BookingHero } from "../features/booking/components/BookingHero";
 import { WeeklyCalendar } from "../features/booking/components/WeeklyCalendar";
@@ -38,7 +37,7 @@ export default function ScheduleBookingPage() {
     if (selectedDate && selectedTime && bookingId) {
       scheduleMutation.mutate(
         { bookingId, payload: { date: selectedDate, time: selectedTime } },
-          onSuccess: () => navigate("/success")
+        { onSuccess: () => navigate("/success") }
       );
     }
   };

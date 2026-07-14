@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import { CheckCircle2, Home, Calendar } from "lucide-react";
+import { CheckCircle2, Home } from "lucide-react";
 import { DevRestartButton } from "../components/DevRestartButton";
 
 export default function SuccessPage() {

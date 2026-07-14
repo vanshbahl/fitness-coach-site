@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
-import { Home, X } from "lucide-react";
+import { Home, X, FastForward } from "lucide-react";
 import { FloatingNextButton } from "./FloatingNextButton";
 import { ProgressStepper } from "./ProgressStepper";
 import { DevRestartButton } from "../../../components/DevRestartButton";
@@ -14,6 +14,8 @@ interface AssessmentLayoutProps {
   isValid?: boolean;
   onNext?: () => void;
   onBack?: () => void;
+  hasUnlockedReview?: boolean;
+  onDevSkip?: () => void;
 }
 
 export function AssessmentLayout({
@@ -23,7 +25,9 @@ export function AssessmentLayout({
   isSaving = false,
   isValid = true,
   onNext,
-  onBack
+  onBack,
+  hasUnlockedReview = false,
+  onDevSkip
 }: AssessmentLayoutProps) {
   const navigate = useNavigate();
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -87,7 +91,19 @@ export function AssessmentLayout({
             <span className="hidden sm:inline font-medium text-sm">Home</span>
           </button>
 
-          <DevRestartButton />
+          <div className="pointer-events-auto flex items-center gap-2">
+            {import.meta.env.DEV && onDevSkip && currentStep < 9 && (
+              <button
+                onClick={onDevSkip}
+                className="flex items-center gap-1.5 h-8 px-3 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider hover:bg-emerald-500/20 transition-colors border border-emerald-500/20"
+                title="Developer Shortcut: Skip to Review"
+              >
+                <FastForward className="w-3.5 h-3.5" />
+                Dev Skip
+              </button>
+            )}
+            <DevRestartButton />
+          </div>
         </div>
       </div>
 
@@ -122,7 +138,7 @@ export function AssessmentLayout({
           onNext={onNext}
           onBack={onBack}
           disabled={!isValid || isSaving}
-          label={currentStep === 0 ? "Begin Assessment" : currentStep === 9 ? "Continue to Payment" : "Continue"}
+          label={currentStep === 0 ? "Begin Assessment" : currentStep === 9 ? "Continue to Payment" : hasUnlockedReview ? "Save & Return" : "Continue"}
           savingLabel={currentStep === 0 ? "Welcome" : "Saved"}
           isSaving={isSaving}
         />

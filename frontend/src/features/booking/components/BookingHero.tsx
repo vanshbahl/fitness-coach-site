@@ -20,7 +20,7 @@ export function BookingHero({ coach, duration, timezone }: BookingHeroProps) {
           Choose Your Trial Session
         </h1>
         <p className="text-zinc-400 text-lg leading-relaxed max-w-lg">
-          Coach {coach} has reviewed your assessment. Choose a time that works best for you.
+          Your assessment is complete. Select a convenient time for your live 1-on-1 trial session with {coach}.
         </p>
       </div>
 
