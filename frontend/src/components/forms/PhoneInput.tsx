@@ -43,7 +43,7 @@ export function PhoneInput({
   const countries = useMemo(() => {
     const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
     return getCountries().map((code) => {
-      let name = code;
+      let name: string = code;
       try {
         name = regionNames.of(code) || code;
       } catch {
