@@ -4,19 +4,31 @@ export enum BookingStatus {
   CANCELLED = "CANCELLED"
 }
 
+export interface AvailabilityPreference {
+  preferred_days: string[];
+  preferred_times: string[];
+  timezone: string;
+}
+
 export interface BookingResponse {
   id: string;
-  status: BookingStatus;
-  coach: string;
-  selectedDate: string | null;
-  selectedTime: string | null;
-  duration: string;
-  timezone: string;
-  googleMeetUrl: string | null;
-  calendarInviteSent: boolean;
-  confirmationEmailSent: boolean;
-  createdAt: string;
-  updatedAt: string;
+  status?: BookingStatus; // legacy/demo
+  booking_status?: BookingStatus; // backend
+  coach?: string; // legacy/demo
+  selectedDate?: string | null; // legacy/demo
+  selectedTime?: string | null; // legacy/demo
+  scheduled_at?: string | null; // backend
+  duration?: string;
+  timezone?: string;
+  googleMeetUrl?: string | null; // legacy/demo
+  meeting_link?: string | null; // backend
+  calendarInviteSent?: boolean; // legacy
+  confirmationEmailSent?: boolean; // legacy
+  createdAt?: string;
+  updatedAt?: string;
+  created_at?: string; // backend
+  updated_at?: string; // backend
+  availability_preference?: AvailabilityPreference; // backend
 }
 
 export interface SlotResponse {

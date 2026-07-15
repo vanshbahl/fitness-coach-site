@@ -22,6 +22,11 @@ const generateDemoBooking = (id: string): BookingResponse => ({
   selectedTime: null,
   duration: "35 Minutes",
   timezone: "Asia/Kolkata",
+  availability_preference: {
+    preferred_days: ["Flexible"],
+    preferred_times: ["Flexible"],
+    timezone: "Asia/Kolkata",
+  },
   googleMeetUrl: null,
   calendarInviteSent: false,
   confirmationEmailSent: false,

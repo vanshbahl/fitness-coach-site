@@ -73,7 +73,7 @@ export default function ScheduleBookingPage() {
       <main className="flex-1 w-full flex flex-col relative z-10 h-[100dvh] overflow-y-auto overflow-x-hidden scrollbar-hide">
         <div className="w-full max-w-2xl mx-auto px-6 sm:px-8 pt-24 pb-[calc(88px+env(safe-area-inset-bottom,0px)+24px)] flex flex-col gap-10">
           
-          <BookingHero coach={booking.coach} duration={booking.duration} timezone={booking.timezone} />
+          <BookingHero coach={booking.coach || "Abhay Pandey"} duration={booking.duration || "35 Minutes"} timezone={booking.timezone || "Asia/Kolkata"} />
 
           <WeeklyCalendar 
             selectedDate={selectedDate} 

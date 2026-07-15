@@ -12,7 +12,7 @@ export const apiClient = axios.create({
 });
 
 // Response interceptor for error normalization
-apiClient.interceptors.response.use(
+apiClient.interceptors.response.use(                                        
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     // Development: Verbose logging
