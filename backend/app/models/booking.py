@@ -29,7 +29,7 @@ class Booking(Base):
     
     # Fitness Profile
     fitness_level: Mapped[FitnessLevel] = mapped_column(SQLEnum(FitnessLevel), nullable=False)
-    training_level: Mapped[TrainingLevel] = mapped_column(SQLEnum(TrainingLevel), nullable=False, server_default="Complete Beginner")
+    training_level: Mapped[TrainingLevel] = mapped_column(SQLEnum(TrainingLevel), nullable=False, server_default="complete_beginner")
     previous_experience: Mapped[bool] = mapped_column(Boolean, nullable=False)
     injuries: Mapped[str | None] = mapped_column(Text, nullable=True)
     current_routine: Mapped[str | None] = mapped_column(Text, nullable=True)

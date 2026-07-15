@@ -116,3 +116,7 @@ coverage-report/
 
 .agents/rules/
 
+
+# SQLite
+*.db
+*.sqlite3

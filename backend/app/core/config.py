@@ -24,15 +24,17 @@ class Settings(BaseSettings):
     def get_database_url(self) -> str:
         """
         Dynamically convert synchronous database URLs to their asynchronous equivalents.
-        This enables developers to supply 'sqlite:///' or 'postgresql://' seamlessly.
         """
+        if not self.DATABASE_URL:
+            raise ValueError("DATABASE_URL must be set.")
+            
         url = self.DATABASE_URL
         if url.startswith("postgres://"):
             url = url.replace("postgres://", "postgresql://", 1)
-        if url.startswith("sqlite://") and not url.startswith("sqlite+aiosqlite://"):
-            url = url.replace("sqlite://", "sqlite+aiosqlite://", 1)
-        elif url.startswith("postgresql://") and not url.startswith("postgresql+asyncpg://") and not url.startswith("postgresql+psycopg://"):
+            
+        if url.startswith("postgresql://") and not url.startswith("postgresql+asyncpg://") and not url.startswith("postgresql+psycopg://"):
             url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+            
         return url
     
     model_config = SettingsConfigDict(

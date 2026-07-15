@@ -60,6 +60,7 @@ quick-strength/
 ### Prerequisites
 - Node.js 20+
 - Python 3.10+
+- Docker & Docker Compose (for PostgreSQL)
 - Git
 
 ### Quick Start
@@ -69,19 +70,25 @@ git clone https://github.com/your-username/quick-strength.git
 cd quick-strength
 ```
 
-#### Frontend Setup
+### 1. Database Setup
 ```bash
-cd frontend
-npm install
+# Start the local PostgreSQL database
+docker-compose up -d
 ```
 
-#### Backend Setup
+### 2. Backend Setup
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 alembic upgrade head
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
 ```
 
 ## Development
@@ -118,7 +125,7 @@ This generates the optimized bundle in `frontend/dist/`.
 - **Premium Landing Page**: Mobile-first, fully responsive marketing page featuring Apple/Linear-inspired aesthetics.
 - **Editorial Slider**: Interactive transformation gallery utilizing native Framer Motion crossfades.
 - **Assessment Wizard**: Multi-step onboarding flow with Zod validation, semantic progress tracking, and morphing transitions.
-- **Backend API Foundation**: FastAPI routes for `/api/v1/bookings` with local SQLite persistence.
+- **Backend API Foundation**: FastAPI routes for `/api/v1/bookings` with PostgreSQL persistence.
 - **Robust Error Handling**: Centralized Axios interceptors for API communication.
 
 ## Future Roadmap
