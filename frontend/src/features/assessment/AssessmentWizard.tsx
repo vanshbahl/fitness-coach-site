@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router";
 import { useAssessmentForm } from "./useAssessmentForm";
 import { AssessmentLayout } from "./components/AssessmentLayout";
 import { useCreateBooking } from "../../hooks/api/booking";
+import { parseApiError, ParsedApiError } from "../../utils/errorParser";
+import { isValidPhoneNumber } from "libphonenumber-js/max";
 // Steps
 import { WelcomeScreen } from "./steps/WelcomeScreen";
 import { Step1Demographics } from "./steps/Step1Demographics";
@@ -31,6 +33,7 @@ export function AssessmentWizard() {
   const form = useAssessmentForm();
   const [direction, setDirection] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
+  const [globalError, setGlobalError] = useState<ParsedApiError | null>(null);
   const createBookingMutation = useCreateBooking();
 
   // Clear location state on mount to prevent sticky returnToReview on refresh
@@ -75,9 +78,10 @@ export function AssessmentWizard() {
     setHasUnlockedReview(true);
   };
 
-  // Scroll to top on step change
+  // Scroll to top on step change and clear global error
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setGlobalError(null);
   }, [currentStep]);
 
   const data = form.watch();
@@ -117,13 +121,53 @@ export function AssessmentWizard() {
     }
 
     if (currentStep === 10) {
+      setGlobalError(null);
+      
+      // Frontend Phone Validation
+      if (data.country && data.nationalNumber) {
+        try {
+          if (!isValidPhoneNumber(data.nationalNumber, data.country as any)) {
+            setDirection(-1);
+            setCurrentStep(8);
+            setTimeout(() => {
+              form.setError("nationalNumber", { type: "manual", message: "This phone number doesn't match the selected country." });
+              try {
+                form.setFocus("nationalNumber");
+              } catch (e) {
+                const el = document.getElementsByName("nationalNumber")[0] as HTMLElement;
+                if (el) el.focus();
+              }
+            }, 300);
+            return;
+          }
+        } catch {
+          // Fallback if parsing fails entirely
+        }
+      }
+
       setIsSaving(true);
       try {
         const result = await createBookingMutation.mutateAsync(data);
         localStorage.setItem("qs_booking_id", result.id);
         navigate("/payment");
-      } catch (err) {
-        console.error(err);
+      } catch (err: any) {
+        const parsed = parseApiError(err);
+        if (parsed.step !== undefined && parsed.focusField) {
+          setDirection(-1);
+          setCurrentStep(parsed.step);
+          setTimeout(() => {
+            form.setError(parsed.focusField as any, { type: "manual", message: parsed.message });
+            try {
+              form.setFocus(parsed.focusField as any);
+            } catch (e) {
+              // Fallback for custom components not registered with ref (e.g. PhoneInput)
+              const el = document.getElementsByName(parsed.focusField as string)[0] as HTMLElement;
+              if (el) el.focus();
+            }
+          }, 300);
+        } else {
+          setGlobalError(parsed);
+        }
       } finally {
         setIsSaving(false);
       }
@@ -162,6 +206,7 @@ export function AssessmentWizard() {
         onBack={currentStep > 0 ? handleBack : undefined}
         hasUnlockedReview={hasUnlockedReview}
         onDevSkip={handleDevSkip}
+        globalError={globalError}
       >
         {currentStep === 0 && <WelcomeScreen />}
         {currentStep === 1 && <Step1Demographics />}

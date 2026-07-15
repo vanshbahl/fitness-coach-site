@@ -1,10 +1,11 @@
 import { ReactNode, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
-import { Home, X, FastForward } from "lucide-react";
+import { Home, X, FastForward, AlertCircle } from "lucide-react";
 import { FloatingNextButton } from "./FloatingNextButton";
 import { ProgressStepper } from "./ProgressStepper";
 import { DevRestartButton } from "../../../components/DevRestartButton";
+import { ParsedApiError } from "../../../utils/errorParser";
 
 interface AssessmentLayoutProps {
   children: ReactNode;
@@ -16,6 +17,7 @@ interface AssessmentLayoutProps {
   onBack?: () => void;
   hasUnlockedReview?: boolean;
   onDevSkip?: () => void;
+  globalError?: ParsedApiError | null;
 }
 
 export function AssessmentLayout({
@@ -27,7 +29,8 @@ export function AssessmentLayout({
   onNext,
   onBack,
   hasUnlockedReview = false,
-  onDevSkip
+  onDevSkip,
+  globalError
 }: AssessmentLayoutProps) {
   const navigate = useNavigate();
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -133,13 +136,34 @@ export function AssessmentLayout({
       </main>
 
       {/* Fixed Footer Container outside scroll area */}
+      {/* Global Error Banner */}
+      <AnimatePresence>
+        {globalError && (
+          <div className="fixed bottom-[88px] sm:bottom-[104px] left-0 right-0 px-4 sm:px-6 z-50 pointer-events-none flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="max-w-md w-full bg-[#1c1c1c] border-l-[3px] border-l-amber-500 rounded-lg p-3 sm:p-4 shadow-2xl flex items-start gap-3 pointer-events-auto border-y border-r border-white/5"
+            >
+              <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-white text-[13px] font-semibold leading-tight mb-1">{globalError.title}</h4>
+                <p className="text-zinc-400 text-[12px] leading-snug">{globalError.message}</p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {onNext && currentStep >= 0 && (
         <FloatingNextButton
           onNext={onNext}
           onBack={onBack}
           disabled={!isValid || isSaving}
           label={currentStep === 0 ? "Begin Assessment" : currentStep === 10 ? "Review Session" : hasUnlockedReview ? "Save & Return" : "Continue"}
-          savingLabel={currentStep === 0 ? "Welcome" : "Saved"}
+          savingLabel={currentStep === 10 ? "Submitting..." : currentStep === 0 ? "Welcome" : "Saved"}
           isSaving={isSaving}
         />
       )}

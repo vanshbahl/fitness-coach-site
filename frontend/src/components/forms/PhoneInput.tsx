@@ -130,19 +130,19 @@ export function PhoneInput({
     onNationalNumberChange(digitsOnly);
   };
 
-  // Unique list of dial codes with their primary flag for the override selector
+  // Unique list of dial codes for the override selector
   const uniqueDialCodes = useMemo(() => {
     const seen = new Set<string>();
-    const codes: { code: string; flag: string }[] = [];
+    const codes: string[] = [];
     
     countries.forEach((c) => {
       if (!seen.has(c.dialCode)) {
         seen.add(c.dialCode);
-        codes.push({ code: c.dialCode, flag: c.flag });
+        codes.push(c.dialCode);
       }
     });
     
-    return codes.sort((a, b) => parseInt(a.code.substring(1)) - parseInt(b.code.substring(1)));
+    return codes.sort((a, b) => parseInt(a.substring(1)) - parseInt(b.substring(1)));
   }, [countries]);
 
   const filteredCountries = useMemo(() => {
@@ -153,7 +153,6 @@ export function PhoneInput({
   }, [countries, searchQuery]);
 
   const selectedCountryObj = countries.find(c => c.code === countryValue) || countries[0];
-  const selectedDialCodeObj = uniqueDialCodes.find(c => c.code === countryCodeValue) || uniqueDialCodes[0];
 
   // Validation Helper Text Context
   let helperText = "Enter your local WhatsApp number.";
@@ -237,7 +236,7 @@ export function PhoneInput({
               className="w-full h-14 bg-white/5 border border-white/10 rounded-xl px-3 flex items-center justify-between text-white hover:bg-white/10 focus:outline-none focus:border-white/30 transition-all cursor-pointer"
             >
               <div className="flex items-center gap-2 overflow-hidden">
-                <span className="text-base shrink-0">{selectedDialCodeObj?.flag}</span>
+                <span className="text-base shrink-0">{selectedCountryObj.flag}</span>
                 <span className="font-medium text-[14px] truncate">{countryCodeValue}</span>
               </div>
               <ChevronDown className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
@@ -253,15 +252,14 @@ export function PhoneInput({
                   className="absolute top-[calc(100%+8px)] left-0 w-[160px] bg-[#111] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden"
                 >
                   <div className="max-h-[240px] overflow-y-auto p-1 custom-scrollbar">
-                    {uniqueDialCodes.map((codeObj) => (
+                    {uniqueDialCodes.map((code) => (
                       <button
-                        key={codeObj.code}
+                        key={code}
                         type="button"
-                        onClick={() => handleCountryCodeSelect(codeObj.code)}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${codeObj.code === countryCodeValue ? 'bg-orange-500/10 text-orange-400' : 'text-zinc-300 hover:bg-white/5 hover:text-white'}`}
+                        onClick={() => handleCountryCodeSelect(code)}
+                        className={`w-full flex items-center justify-center gap-3 px-3 py-2.5 rounded-lg text-center transition-colors ${code === countryCodeValue ? 'bg-orange-500/10 text-orange-400' : 'text-zinc-300 hover:bg-white/5 hover:text-white'}`}
                       >
-                        <span className="text-base">{codeObj.flag}</span>
-                        <span className="text-[14px] font-medium">{codeObj.code}</span>
+                        <span className="text-[14px] font-medium">{code}</span>
                       </button>
                     ))}
                   </div>
@@ -272,6 +270,8 @@ export function PhoneInput({
 
           {/* National Number Input */}
           <input
+            id="nationalNumber"
+            name="nationalNumber"
             type="tel"
             value={nationalNumberValue}
             onChange={handleNumberChange}
