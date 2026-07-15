@@ -58,9 +58,9 @@ The booking experience is an interactive onboarding wizard. It must feel like se
 - **Action**: Optional fields, easy to skip. Auto-validates as true.
 
 ### Step 7: Contact Info
-- **Fields**: Name, WhatsApp Number, Instagram Handle, City.
-- **UX**: Stacked, clean input fields with floating labels. Auto-focus on Name. Use numeric keypad for WhatsApp.
-- **Validation**: Name (min 2 chars), WhatsApp (valid regex), City (min 2 chars) are required. Instagram is optional (auto-strips `@`).
+- **Fields**: Name, Country, Country Code, WhatsApp Number, Instagram Handle, City.
+- **UX**: Stacked, clean input fields with floating labels. Auto-focus on Name. Structured custom input for International Phone parsing.
+- **Validation**: Name (min 2 chars), Phone (libphonenumber-js rules), City (min 2 chars) are required. Instagram is optional (auto-strips `@`).
 
 ### Step 8: Commitment Level
 - **UX**: Single select card indicating the structure of the trial and acknowledging the standard monthly fee (to pre-qualify leads).

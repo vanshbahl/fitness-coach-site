@@ -41,7 +41,9 @@ export interface CreateBookingPayload {
   currentRoutine?: string;
   injuries?: string;
   name?: string;
-  whatsapp?: string;
+  country?: string;
+  countryCode?: string;
+  nationalNumber?: string;
   instagram?: string;
   city?: string;
   preferredDuration?: string;

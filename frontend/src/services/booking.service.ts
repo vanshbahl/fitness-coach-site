@@ -12,8 +12,7 @@ const durationMap: Record<string, string> = {
 // Extract fitness level from experience
 const getFitnessLevel = (hasExperience?: boolean) => hasExperience ? "intermediate" : "beginner";
 
-// Demo Mode: Mock backend responses during development to prevent DB pollution
-const isDemoMode = import.meta.env.DEV && localStorage.getItem('demo_mode') !== 'false';
+import { isDemoMode } from '../utils/demo';
 
 const generateDemoBooking = (id: string): BookingResponse => ({
   id,
@@ -47,7 +46,9 @@ export const createBooking = async (payload: CreateBookingPayload): Promise<Book
     age: payload.age || 25,
     gender: (payload.gender || "Male").toLowerCase(),
     city: payload.city || "Unknown",
-    whatsapp_number: payload.whatsapp || "+910000000000",
+    country: payload.country || "IN",
+    country_code: payload.countryCode || "+91",
+    national_number: payload.nationalNumber || "0000000000",
     instagram_handle: payload.instagram || null,
     height_cm: payload.heightCm || 175,
     weight_kg: payload.weightKg || 75.0,

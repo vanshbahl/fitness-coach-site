@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { StepLayout } from "../components/StepLayout";
+import { PhoneInput } from "@/components/forms/PhoneInput";
 import { AssessmentFormData } from "../schema";
 
 interface Step7Props {
@@ -8,9 +9,11 @@ interface Step7Props {
 }
 
 export function Step7Contact({  }: Step7Props) {
-  const { register, formState: { errors } } = useFormContext<AssessmentFormData>();
-
+  const { register, watch, setValue, formState: { errors } } = useFormContext<AssessmentFormData>();
   
+  const country = watch("country") || "IN";
+  const countryCode = watch("countryCode") || "+91";
+  const nationalNumber = watch("nationalNumber") || "";
 
   return (
     <>
@@ -28,16 +31,15 @@ export function Step7Contact({  }: Step7Props) {
             {errors.name && <span className="text-red-400 text-xs pl-1">{errors.name.message}</span>}
           </div>
 
-          <div className="space-y-2">
-            <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 pl-1">WhatsApp Number *</label>
-            <input 
-              type="tel"
-              {...register("whatsapp")}
-              placeholder="+91"
-              className="w-full h-14 bg-white/5 border border-white/10 rounded-xl px-4 text-white placeholder-zinc-600 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
-            />
-            {errors.whatsapp && <span className="text-red-400 text-xs pl-1">{errors.whatsapp.message}</span>}
-          </div>
+          <PhoneInput
+            countryValue={country}
+            countryCodeValue={countryCode}
+            nationalNumberValue={nationalNumber}
+            onCountryChange={(val) => setValue("country", val, { shouldValidate: true })}
+            onCountryCodeChange={(val) => setValue("countryCode", val, { shouldValidate: true })}
+            onNationalNumberChange={(val) => setValue("nationalNumber", val, { shouldValidate: true })}
+            error={errors.nationalNumber?.message}
+          />
 
           <div className="space-y-2">
             <label className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 pl-1">Instagram Handle</label>

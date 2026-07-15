@@ -20,7 +20,9 @@ class Booking(Base):
     age: Mapped[int] = mapped_column(Integer, nullable=False)
     gender: Mapped[Gender] = mapped_column(SQLEnum(Gender), nullable=False)
     city: Mapped[str] = mapped_column(String, nullable=False)
-    whatsapp_number: Mapped[str] = mapped_column(String, nullable=False)
+    country: Mapped[str] = mapped_column(String(2), nullable=False, default="IN")
+    country_code: Mapped[str] = mapped_column(String, nullable=False)
+    national_number: Mapped[str] = mapped_column(String, index=True, nullable=False)
     instagram_handle: Mapped[str | None] = mapped_column(String, nullable=True)
     
     # Body Metrics
@@ -55,3 +57,7 @@ class Booking(Base):
     # Relationships
     payment: Mapped["Payment"] = relationship("Payment", back_populates="booking", cascade="all, delete-orphan", uselist=False)
     availability_preference: Mapped["AvailabilityPreference"] = relationship("AvailabilityPreference", back_populates="booking", cascade="all, delete-orphan", uselist=False)
+
+    @property
+    def full_phone_number(self) -> str:
+        return f"{self.country_code}{self.national_number}"

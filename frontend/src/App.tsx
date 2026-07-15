@@ -5,6 +5,7 @@ import PaymentPage from "./pages/PaymentPage";
 import SuccessPage from "./pages/SuccessPage";
 import ScheduleBookingPage from "./pages/ScheduleBookingPage";
 import { AdminPortalPage } from "./pages/AdminPortalPage";
+import { DemoBanner } from "./components/DemoBanner";
 
 export default function App() {
   const location = useLocation();
@@ -17,6 +18,7 @@ export default function App() {
         </filter>
         <rect width="100%" height="100%" filter="url(#global-noise)" />
       </svg>
+      <DemoBanner />
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/assessment" element={<AssessmentPage />} />

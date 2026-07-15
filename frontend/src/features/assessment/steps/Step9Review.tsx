@@ -78,7 +78,7 @@ export function Step9Review({ onEditStep }: Step9Props) {
           <SectionHeader title="About You" />
           <div className="flex flex-col">
             <InfoRow label="Name" value={data.name || "-"} step={8} />
-            <InfoRow label="Phone" value={data.whatsapp || "-"} step={8} />
+            <InfoRow label="Phone" value={data.nationalNumber ? `${data.countryCode || ""} ${data.nationalNumber}` : "-"} step={8} />
             <InfoRow label="Instagram" value={data.instagram ? `@${data.instagram}` : "-"} step={8} />
             <InfoRow label="Location" value={data.city || "-"} step={8} />
           </div>

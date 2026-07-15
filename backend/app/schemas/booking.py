@@ -1,7 +1,9 @@
 from pydantic import BaseModel, Field, field_validator, ConfigDict
+from pydantic_core.core_schema import ValidationInfo
 from typing import List, Optional
 from datetime import datetime
 from uuid import UUID
+import phonenumbers
 from app.models.enums import Gender, FitnessLevel, TrainingLevel, CoachingDuration, BookingStatus, TrialOutcome
 
 class BookingBase(BaseModel):
@@ -10,7 +12,9 @@ class BookingBase(BaseModel):
     age: int = Field(..., ge=12, le=100)
     gender: Gender
     city: str = Field(..., min_length=2, max_length=100)
-    whatsapp_number: str = Field(..., pattern=r"^\+?[0-9]{10,15}$")
+    country: str = Field(..., min_length=2, max_length=2)
+    country_code: str = Field(..., min_length=1)
+    national_number: str = Field(..., min_length=6, max_length=15)
     instagram_handle: Optional[str] = Field(None, max_length=50)
     
     # Body Metrics
@@ -45,6 +49,22 @@ class BookingBase(BaseModel):
         if not v:
             raise ValueError("Fee acknowledgement must be true.")
         return v
+        
+    @field_validator('national_number')
+    @classmethod
+    def validate_phone(cls, v: str, info: ValidationInfo) -> str:
+        country = info.data.get('country')
+        if not country:
+            return v
+        try:
+            parsed = phonenumbers.parse(v, country)
+            if not phonenumbers.is_valid_number(parsed):
+                raise ValueError("Invalid phone number for the given country.")
+        except phonenumbers.NumberParseException:
+            # Fallback to basic generic validation if parse fails
+            if not (6 <= len(v) <= 15 and v.isdigit()):
+                raise ValueError("Invalid phone number format.")
+        return v
 
 class BookingCreate(BookingBase):
     # Availability
@@ -59,7 +79,9 @@ class BookingCreate(BookingBase):
                 "age": 35,
                 "gender": "male",
                 "city": "Delhi",
-                "whatsapp_number": "+919876543210",
+                "country": "IN",
+                "country_code": "+91",
+                "national_number": "9876543210",
                 "instagram_handle": "virat.kohli",
                 "height_cm": 175,
                 "weight_kg": 74.5,
@@ -115,6 +137,8 @@ class BookingResponse(BookingBase):
     follow_up_date: Optional[datetime]
     created_at: datetime
     updated_at: datetime
+    
+    full_phone_number: str
     
     availability_preference: Optional[AvailabilityPreferenceResponse] = None
     payment: Optional[PaymentResponse] = None

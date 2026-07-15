@@ -62,7 +62,9 @@ export function AssessmentWizard() {
       currentRoutine: "Basic pushups and pullups",
       injuries: "None",
       name: "Test User",
-      whatsapp: "+919876543210",
+      country: "IN",
+      countryCode: "+91",
+      nationalNumber: "9876543210",
       instagram: "testuser",
       city: "Test City",
       preferredDuration: "3 Months",
@@ -87,7 +89,7 @@ export function AssessmentWizard() {
       case 3: return data.goals && data.goals.length > 0;
       case 4: return data.equipment && data.equipment.length > 0;
       case 5: return data.preferredDays && data.preferredDays.length > 0 && data.preferredTime && data.preferredTime.length > 0;
-      case 8: return (data.name?.trim()?.length || 0) >= 2 && (data.whatsapp?.trim()?.length || 0) >= 5 && (data.city?.trim()?.length || 0) >= 2;
+      case 8: return (data.name?.trim()?.length || 0) >= 2 && (data.nationalNumber?.trim()?.length || 0) >= 5 && (data.city?.trim()?.length || 0) >= 2;
       case 9: return !!data.preferredDuration;
       default: return true;
     }
@@ -105,7 +107,7 @@ export function AssessmentWizard() {
       case 5: fieldsToValidate = ["preferredDays", "preferredTime"]; break;
       case 6: fieldsToValidate = ["heightCm", "weightKg"]; break;
       case 7: fieldsToValidate = ["currentRoutine", "injuries"]; break;
-      case 8: fieldsToValidate = ["name", "whatsapp", "instagram", "city"]; break;
+      case 8: fieldsToValidate = ["name", "country", "countryCode", "nationalNumber", "instagram", "city"]; break;
       case 9: fieldsToValidate = ["preferredDuration"]; break;
     }
 

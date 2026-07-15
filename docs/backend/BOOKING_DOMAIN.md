@@ -33,7 +33,9 @@ Fields using JSON: `goals`, `equipment_available`, `preferred_days`, `preferred_
 | `age` | Client's age | Yes | Integer | `Integer` | 12 <= age <= 100 | Numeric Input |
 | `gender` | Client's gender | Yes | Enum | `Enum(Gender)` | - | Radio Group / Chips |
 | `city` | Client's city of residence | Yes | String | `String` | min_length=2 | Text Input |
-| `whatsapp_number` | Contact number for WhatsApp | Yes | String | `String` | regex (10-15 digits) | Tel Input |
+| `country` | User's country code | Yes | String | `String(2)` | length(2) | Select |
+| `country_code` | Dialing code | Yes | String | `String` | e.g. +91 | Select |
+| `national_number` | Contact number for WhatsApp | Yes | String | `String` | libphonenumber | Tel Input |
 | `instagram_handle` | Client's IG username | No | String | `String` | Strip '@' if passed | Text Input |
 
 ### Body Metrics

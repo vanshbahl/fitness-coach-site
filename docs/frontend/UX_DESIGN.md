@@ -18,7 +18,7 @@ The experience must feel like joining an exclusive coaching program, not filling
 - **User Goal**: Tell the coach who they are.
 - **Layout**: Minimal form inputs with floating labels.
 - **Primary CTA**: "Next"
-- **Validation Rules**: Name (min 2), Age (12-100), WhatsApp (valid regex), City.
+- **Validation Rules**: Name (min 2), Age (12-100), Phone (libphonenumber logic), City.
 - **Expected Emotion**: Committed, invested.
 
 ### 3. Wizard Step 2: Body Metrics
