@@ -130,7 +130,7 @@ This generates the optimized bundle in `frontend/dist/`.
 
 ## Future Roadmap
 
-See the full [ROADMAP.md](./ROADMAP.md) for upcoming features including Razorpay integration, Google Calendar syncing, and Admin Dashboards.
+See the full [ROADMAP.md](./ROADMAP.md) for upcoming features including Razorpay integration, Google Calendar syncing, and Admin Dashboards (currently structurally previewed at `/admin`).
 
 ## Credits
 

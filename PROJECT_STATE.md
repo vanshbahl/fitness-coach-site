@@ -54,7 +54,7 @@ This document tracks the current state of Quick Strength, acting as the single s
 
 1. **Prototype v1.1**: Deploying Frontend to Vercel and Backend to Railway with a PostgreSQL database.
 2. **Payments & Scheduling**: Razorpay and Google Calendar API integration.
-3. **Admin Dashboard (V1)**: Secure login for the coach to view bookings and applicant statuses.
+3. **Admin Dashboard (V1)**: Secure login for the coach to view bookings and applicant statuses. *(A structural placeholder is currently implemented at `/admin`)*
 
 ---
 

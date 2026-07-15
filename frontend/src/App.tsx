@@ -4,6 +4,7 @@ import AssessmentPage from "./pages/AssessmentPage";
 import PaymentPage from "./pages/PaymentPage";
 import SuccessPage from "./pages/SuccessPage";
 import ScheduleBookingPage from "./pages/ScheduleBookingPage";
+import { AdminPortalPage } from "./pages/AdminPortalPage";
 
 export default function App() {
   const location = useLocation();
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/schedule" element={<ScheduleBookingPage />} />
+        <Route path="/admin" element={<AdminPortalPage />} />
       </Routes>
     </>
   );
