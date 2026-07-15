@@ -1,4 +1,5 @@
-from sqlalchemy import String, ForeignKey, JSON
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 import uuid
@@ -13,8 +14,8 @@ class AvailabilityPreference(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     booking_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("bookings.id", ondelete="CASCADE"), unique=True, nullable=False)
     
-    preferred_days: Mapped[list[str]] = mapped_column(JSON, nullable=False)
-    preferred_times: Mapped[list[str]] = mapped_column(JSON, nullable=False)
+    preferred_days: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
+    preferred_times: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
     timezone: Mapped[str] = mapped_column(String, nullable=False, default="Asia/Kolkata")
     
     booking: Mapped["Booking"] = relationship("Booking", back_populates="availability_preference")

@@ -1,4 +1,5 @@
-from sqlalchemy import String, Integer, Float, Boolean, Text, JSON, DateTime, Enum as SQLEnum
+from sqlalchemy import String, Integer, Float, Boolean, Text, DateTime, Enum as SQLEnum
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 import uuid
@@ -37,8 +38,8 @@ class Booking(Base):
     current_routine: Mapped[str | None] = mapped_column(Text, nullable=True)
     
     # JSON Multi-Select Fields
-    goals: Mapped[list[str]] = mapped_column(JSON, nullable=False)
-    equipment_available: Mapped[list[str]] = mapped_column(JSON, nullable=False)
+    goals: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
+    equipment_available: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
     
     # Coaching
     preferred_duration: Mapped[CoachingDuration] = mapped_column(SQLEnum(CoachingDuration), nullable=False)

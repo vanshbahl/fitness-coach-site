@@ -1,19 +1,19 @@
-"""Add booking domain models
+"""Initial PostgreSQL schema
 
-Revision ID: c6c868746967
-Revises: ec7378beb881
-Create Date: 2026-07-13 20:10:37.160720
+Revision ID: 3c0850dc1da6
+Revises: 
+Create Date: 2026-07-15 19:29:20.064749
 
 """
 from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = 'c6c868746967'
-down_revision: Union[str, Sequence[str], None] = 'ec7378beb881'
+revision: str = '3c0850dc1da6'
+down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -27,16 +27,19 @@ def upgrade() -> None:
     sa.Column('age', sa.Integer(), nullable=False),
     sa.Column('gender', sa.Enum('male', 'female', 'other', 'prefer_not_to_say', name='gender'), nullable=False),
     sa.Column('city', sa.String(), nullable=False),
-    sa.Column('whatsapp_number', sa.String(), nullable=False),
+    sa.Column('country', sa.String(length=2), nullable=False),
+    sa.Column('country_code', sa.String(), nullable=False),
+    sa.Column('national_number', sa.String(), nullable=False),
     sa.Column('instagram_handle', sa.String(), nullable=True),
     sa.Column('height_cm', sa.Integer(), nullable=False),
     sa.Column('weight_kg', sa.Float(), nullable=False),
     sa.Column('fitness_level', sa.Enum('beginner', 'intermediate', 'advanced', name='fitnesslevel'), nullable=False),
+    sa.Column('training_level', sa.Enum('complete_beginner', 'basic_beginner', 'advanced_beginner', 'intermediate', 'advanced', name='traininglevel'), server_default=sa.text("'complete_beginner'"), nullable=False),
     sa.Column('previous_experience', sa.Boolean(), nullable=False),
     sa.Column('injuries', sa.Text(), nullable=True),
     sa.Column('current_routine', sa.Text(), nullable=True),
-    sa.Column('goals', sa.JSON(), nullable=False),
-    sa.Column('equipment_available', sa.JSON(), nullable=False),
+    sa.Column('goals', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
+    sa.Column('equipment_available', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
     sa.Column('preferred_duration', sa.Enum('one_month', 'three_months', 'six_months', name='coachingduration'), nullable=False),
     sa.Column('fee_acknowledgement', sa.Boolean(), nullable=False),
     sa.Column('booking_status', sa.Enum('pending', 'paid', 'completed', 'cancelled', 'enrolled', name='bookingstatus'), nullable=False),
@@ -47,29 +50,30 @@ def upgrade() -> None:
     sa.Column('attendance', sa.Boolean(), nullable=False),
     sa.Column('coach_notes', sa.Text(), nullable=True),
     sa.Column('follow_up_date', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_bookings_national_number'), 'bookings', ['national_number'], unique=False)
     op.create_index(op.f('ix_bookings_scheduled_at'), 'bookings', ['scheduled_at'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
     sa.Column('hashed_password', sa.String(), nullable=False),
     sa.Column('role', sa.Enum('admin', name='userrole'), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
     op.create_table('availability_preferences',
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('booking_id', sa.Uuid(), nullable=False),
-    sa.Column('preferred_days', sa.JSON(), nullable=False),
-    sa.Column('preferred_times', sa.JSON(), nullable=False),
+    sa.Column('preferred_days', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
+    sa.Column('preferred_times', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
     sa.Column('timezone', sa.String(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['booking_id'], ['bookings.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('booking_id')
@@ -81,8 +85,8 @@ def upgrade() -> None:
     sa.Column('razorpay_payment_id', sa.String(), nullable=True),
     sa.Column('amount_paid', sa.Integer(), nullable=False),
     sa.Column('status', sa.Enum('pending', 'success', 'failed', 'refunded', name='paymentstatus'), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['booking_id'], ['bookings.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('booking_id')
@@ -100,5 +104,16 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
     op.drop_index(op.f('ix_bookings_scheduled_at'), table_name='bookings')
+    op.drop_index(op.f('ix_bookings_national_number'), table_name='bookings')
     op.drop_table('bookings')
+    
+    # Drop enum types explicitly for PostgreSQL
+    op.execute("DROP TYPE IF EXISTS paymentstatus")
+    op.execute("DROP TYPE IF EXISTS userrole")
+    op.execute("DROP TYPE IF EXISTS trialoutcome")
+    op.execute("DROP TYPE IF EXISTS bookingstatus")
+    op.execute("DROP TYPE IF EXISTS coachingduration")
+    op.execute("DROP TYPE IF EXISTS traininglevel")
+    op.execute("DROP TYPE IF EXISTS fitnesslevel")
+    op.execute("DROP TYPE IF EXISTS gender")
     # ### end Alembic commands ###
