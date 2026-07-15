@@ -11,7 +11,6 @@ from alembic import op
 import sqlalchemy as sa
 
 
-# revision identifiers, used by Alembic.
 revision: str = 'a08876aafb84'
 down_revision: Union[str, Sequence[str], None] = 'c6c868746967'
 branch_labels: Union[str, Sequence[str], None] = None
@@ -19,11 +18,10 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    """Upgrade schema."""
-    # Explicitly create the PostgreSQL enum type first.
-    # SQLite doesn't need this — PostgreSQL does.
+    # IF NOT EXISTS handles the case where a previous
+    # partial migration already created the type before crashing
     op.execute(
-        "CREATE TYPE traininglevel AS ENUM ("
+        "CREATE TYPE IF NOT EXISTS traininglevel AS ENUM ("
         "'complete_beginner', 'basic_beginner', 'advanced_beginner', "
         "'intermediate', 'advanced'"
         ")"
@@ -35,14 +33,13 @@ def upgrade() -> None:
             'complete_beginner', 'basic_beginner', 'advanced_beginner',
             'intermediate', 'advanced',
             name='traininglevel',
-            create_type=False  # We created it manually above
+            create_type=False
         ),
-        server_default="'advanced_beginner'",  # Must be a valid enum value
+        server_default=sa.text("'advanced_beginner'"),  # ← sa.text() prevents double-quoting
         nullable=False
     ))
 
 
 def downgrade() -> None:
-    """Downgrade schema."""
     op.drop_column('bookings', 'training_level')
     op.execute("DROP TYPE IF EXISTS traininglevel")
