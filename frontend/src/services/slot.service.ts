@@ -4,7 +4,7 @@ import { SlotResponse } from '../types/api';
  * Gets available slots for a given booking
  */
 export const getAvailableSlots = async (_bookingId: string): Promise<SlotResponse[]> => {
-  // TODO: Replace with real API call when backend is ready
+  // Replace with real API call when backend is ready
   // return (await apiClient.get<SlotResponse[]>(`/bookings/${bookingId}/slots`)).data;
 
   return new Promise((resolve) => {

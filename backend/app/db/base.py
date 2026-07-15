@@ -22,5 +22,5 @@ class Base(DeclarativeBase):
     )
 
 # Register models for Alembic autogenerate
-from app.models import User, Booking, Payment, AvailabilityPreference
+from app.models import User, Booking, Payment, AvailabilityPreference, FeaturedMedia
 

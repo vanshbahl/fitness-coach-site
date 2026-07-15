@@ -44,3 +44,13 @@ class TrialOutcome(str, enum.Enum):
 
 class UserRole(str, enum.Enum):
     admin = "admin"
+
+class Platform(str, enum.Enum):
+    instagram = "INSTAGRAM"
+    youtube = "YOUTUBE"
+    self_hosted = "SELF_HOSTED"
+
+class MediaType(str, enum.Enum):
+    reel = "REEL"
+    shorts = "SHORTS"
+    testimonial = "TESTIMONIAL"

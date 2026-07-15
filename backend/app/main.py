@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
+from app.core.cloudinary import init_cloudinary
 from app.api.v1.router import api_router
 
 from sqlalchemy import text
@@ -31,6 +32,9 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Failed to connect to PostgreSQL: {e}")
         raise RuntimeError("Database connection failed during startup.")
+        
+    # Initialize Media Providers
+    init_cloudinary()
         
     logger.info("Server ready")
     yield
@@ -81,7 +85,7 @@ async def validation_exception_handler(request, exc: RequestValidationError):
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {"status": "ok"}
 
 @app.get("/", include_in_schema=False)
 async def root():

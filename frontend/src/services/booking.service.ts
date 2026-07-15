@@ -39,7 +39,6 @@ const generateDemoBooking = (id: string): BookingResponse => ({
  */
 export const createBooking = async (payload: CreateBookingPayload): Promise<BookingResponse> => {
   if (isDemoMode) {
-    console.log("🛠️ DEMO MODE: Mocking booking creation (Backend bypassed)");
     return new Promise(resolve => setTimeout(() => {
       resolve(generateDemoBooking(`demo_${Math.random().toString(36).substring(7)}`));
     }, 800));
@@ -113,7 +112,7 @@ export const scheduleSlot = async (bookingId: string, payload: ScheduleSlotPaylo
     }, 1000));
   }
 
-  // TODO: Replace with real API call
+  // Replace with real API call
   // return (await apiClient.post<any>(`/bookings/${bookingId}/schedule`, payload)).data.data;
   
   // Since we are mocking this step, we fetch the real booking from the backend, 

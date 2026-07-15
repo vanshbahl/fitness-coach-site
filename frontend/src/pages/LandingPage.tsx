@@ -2,6 +2,7 @@ import { Hero } from "@/features/landing/Hero";
 import { FloatingNav } from "@/components/layout/FloatingNav";
 import { WhyCalisthenics } from "@/features/landing/components/WhyCalisthenics";
 import { WhyQuickStrength } from "@/features/landing/components/WhyQuickStrength";
+import { ReelsSection } from "@/features/landing/components/reels";
 import { MeetYourCoach } from "@/features/landing/components/MeetYourCoach";
 import { Results } from "@/features/landing/components/Results";
 import { WhatYouGet } from "@/features/landing/components/WhatYouGet";
@@ -14,8 +15,9 @@ export default function LandingPage() {
     <main className="min-h-[100dvh] bg-black text-white antialiased selection:bg-white selection:text-black flex flex-col">
       <FloatingNav />
       <Hero />
-      <WhyCalisthenics />
       <WhyQuickStrength />
+      <ReelsSection />
+      <WhyCalisthenics />
       <MeetYourCoach />
       <Results />
       <WhatYouGet />

@@ -34,9 +34,7 @@ export const isDemoMode = getIsDemoMode();
 if (import.meta.env.DEV) {
   if (isDemoMode) {
     // eslint-disable-next-line no-console
-    console.log("🛠 Demo Mode ENABLED");
   } else {
     // eslint-disable-next-line no-console
-    console.log("✅ Real Backend Enabled");
   }
 }

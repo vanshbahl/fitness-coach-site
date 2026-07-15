@@ -16,12 +16,20 @@ class Settings(BaseSettings):
     @property
     def DEBUG(self) -> bool:
         return self.ENVIRONMENT == "development"
-    
     # CORS Origins - parsed from JSON string if passed via env
-    BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    # In production, this must be set in .env, e.g., ["https://quickstrength.com"]
+    BACKEND_CORS_ORIGINS: list[str] = []
+    
+    # Security
+    SECRET_KEY: str
     
     # Database Configuration
     DATABASE_URL: str
+    
+    # Cloudinary Configuration
+    CLOUDINARY_CLOUD_NAME: str
+    CLOUDINARY_API_KEY: str
+    CLOUDINARY_API_SECRET: str
     
     @property
     def get_database_url(self) -> str:

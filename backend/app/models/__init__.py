@@ -3,6 +3,7 @@ from app.models.admin_user import User
 from app.models.booking import Booking
 from app.models.payment import Payment
 from app.models.availability import AvailabilityPreference
+from app.models.featured_media import FeaturedMedia
 
 __all__ = [
     "Gender",
@@ -16,4 +17,5 @@ __all__ = [
     "Booking",
     "Payment",
     "AvailabilityPreference",
+    "FeaturedMedia",
 ]
